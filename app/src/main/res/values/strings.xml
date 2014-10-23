@@ -6,6 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="warning_no_character">You have no player avatar created. Tap the screen to create one.</string>
 
     <array name="nav_items">
         <item>Home</item>
@@ -13,5 +14,8 @@
         <item>Store</item>
         <item>Dungeon</item>
     </array>
+
+    <string name="title_activity_create_character">CreateCharacterActivity</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

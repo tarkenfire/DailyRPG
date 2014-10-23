@@ -3,7 +3,9 @@ package com.hinodesoftworks.dailyrpg;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.util.Log;
@@ -16,12 +18,21 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 
-public class HomeActivity extends Activity {
+public class HomeActivity extends Activity implements QuestFragment.OnQuestFragmentInteractionListener,
+ShopItemFragment.OnShopFragmentInteractionListener, DungeonFragment.OnDungeonFragmentInteractionListener {
 
     private String[] pageNames;
     private DrawerLayout layout;
     private ListView drawerList;
     private ActionBarDrawerToggle drawerToggle;
+
+    public static final int REQUEST_CHAR_CREATE = 1;
+
+    //nav drawer items are in a fixed position, so create convience constants to refelct this
+    public static final int NAV_HOME = 0;
+    public static final int NAV_QUESTS = 1;
+    public static final int NAV_STORE = 2;
+    public static final int NAV_DUNGEON = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +67,20 @@ public class HomeActivity extends Activity {
         //action bar stuff
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
+
+        //go to "home" on app launch.
+        selectItem(NAV_HOME);
+    }
+
+    //button/view click handling
+    public void onClick(View sender){
+        switch (sender.getId())
+        {
+            case R.id.main_no_char_warning:
+                Intent intent = new Intent(this, CreateCharacterActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 
     @Override
@@ -81,9 +106,6 @@ public class HomeActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
 
         //check for nav drawer open on icon click.
         if (drawerToggle.onOptionsItemSelected(item)){
@@ -107,18 +129,35 @@ public class HomeActivity extends Activity {
 
     private void selectItem(int position){
         //TODO: Filter by text index
-        Fragment fragment = new HomeFragment();
+        Fragment navFragment = null;
+
+        switch (position){
+            case NAV_HOME:
+                navFragment = new HomeFragment();
+                break;
+            case NAV_QUESTS:
+                navFragment = new QuestFragment();
+                break;
+            case NAV_STORE:
+                navFragment = new ShopItemFragment();
+                break;
+            case NAV_DUNGEON:
+                navFragment = new DungeonFragment();
+                break;
+            default:
+                //in case of error, default to "home" menu
+                selectItem(NAV_HOME);
+                return;
+        }
 
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.content_view, fragment)
+                .replace(R.id.content_view, navFragment)
                 .commit();
 
         drawerList.setItemChecked(position, true);
         layout.closeDrawer(drawerList);
-
-
     }
 
     //listener
@@ -130,4 +169,22 @@ public class HomeActivity extends Activity {
         }
     }
 
+    //fragment interfaces
+    @Override
+    public void onQuestSelected(int position)
+    {
+
+    }
+
+    @Override
+    public void onShopItemSelected(String id)
+    {
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri)
+    {
+
+    }
 }
