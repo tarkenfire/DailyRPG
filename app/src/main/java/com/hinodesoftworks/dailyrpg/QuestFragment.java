@@ -35,6 +35,8 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
         mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
                 android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
 
+        setHasOptionsMenu(true);
+
     }
 
     @Override

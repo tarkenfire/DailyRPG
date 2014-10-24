@@ -16,12 +16,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.hinodesoftworks.dailyrpg.database.DBManager;
 
 
 public class HomeActivity extends Activity implements QuestFragment.OnQuestFragmentInteractionListener,
-ShopItemFragment.OnShopFragmentInteractionListener, DungeonFragment.OnDungeonFragmentInteractionListener {
+ShopItemFragment.OnShopFragmentInteractionListener, DungeonFragment.OnDungeonFragmentInteractionListener,
+RandomBattleFragment.OnRBInteractionListener{
 
     private String[] pageNames;
     private DrawerLayout layout;
@@ -86,6 +88,13 @@ ShopItemFragment.OnShopFragmentInteractionListener, DungeonFragment.OnDungeonFra
             case R.id.main_no_char_warning:
                 Intent intent = new Intent(this, CreateCharacterActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.battleButton:
+                Fragment battleFragment = new RandomBattleFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_view, battleFragment)
+                        .commit();
                 break;
         }
     }
@@ -186,7 +195,7 @@ ShopItemFragment.OnShopFragmentInteractionListener, DungeonFragment.OnDungeonFra
     @Override
     public void onShopItemSelected(String id)
     {
-
+        Toast.makeText(this, id + " added to inventory", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -194,4 +203,19 @@ ShopItemFragment.OnShopFragmentInteractionListener, DungeonFragment.OnDungeonFra
     {
 
     }
-}
+
+    @Override
+    public void onBattleClose()
+    {
+        Fragment homeFrag = new HomeFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_view, homeFrag)
+                .commit();
+    }
+
+    @Override
+    public void onBattleEnd()
+    {
+
+    }}

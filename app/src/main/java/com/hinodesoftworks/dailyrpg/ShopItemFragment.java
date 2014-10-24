@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -20,7 +22,7 @@ public class ShopItemFragment extends Fragment implements AbsListView.OnItemClic
     private OnShopFragmentInteractionListener mListener;
     private AbsListView mListView;
     private ListAdapter mAdapter;
-
+    String[] dummyItems = {"Potion - 1 gold", "Sword - 2 gold", "Map - 3 gold"};
 
     public ShopItemFragment() {
     }
@@ -29,10 +31,12 @@ public class ShopItemFragment extends Fragment implements AbsListView.OnItemClic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
+        mAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_1, dummyItems);
+
+
+
     }
 
     @Override
@@ -73,8 +77,14 @@ public class ShopItemFragment extends Fragment implements AbsListView.OnItemClic
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onShopItemSelected(DummyContent.ITEMS.get(position).id);
+            mListener.onShopItemSelected(dummyItems[position]);
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     /**
