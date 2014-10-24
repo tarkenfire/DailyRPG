@@ -1,10 +1,10 @@
 package com.hinodesoftworks.dailyrpg;
 
 import android.app.Activity;
-import android.os.Bundle;
+import android.content.Intent;import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.View;
+import android.view.Menu;import android.view.MenuInflater;import android.view.MenuItem;import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -22,6 +22,10 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
     private AbsListView mListView;
     private ListAdapter mAdapter;
 
+    private GameManager pGameManger;
+
+    private String toAdd;
+
 
     public QuestFragment() {
     }
@@ -30,10 +34,11 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        pGameManger = GameManager.getInstance(getActivity());
 
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
+        mAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_1, android.R.id.text1, pGameManger.hackyQList);
 
         setHasOptionsMenu(true);
 
@@ -55,15 +60,20 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
     }
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Activity activity)
+    {
         super.onAttach(activity);
-        try {
+        try
+        {
             mListener = (OnQuestFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
+        } catch (ClassCastException e)
+        {
             throw new ClassCastException(activity.toString()
-                + " must implement OnFragmentInteractionListener");
+                    + " must implement OnFragmentInteractionListener");
         }
+
     }
+
 
     @Override
     public void onDetach() {
@@ -97,6 +107,25 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
     public interface OnQuestFragmentInteractionListener{
         // TODO: Update argument type and name
         public void onQuestSelected(int position);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu, inflater);
+        getActivity().getMenuInflater().inflate(R.menu.quest, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        int id = item.getItemId();
+        if (id == R.id.action_add_quest){
+            Intent i = new Intent(getActivity(), AddQuestActivity.class);
+            getActivity().startActivityForResult(i, 200);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

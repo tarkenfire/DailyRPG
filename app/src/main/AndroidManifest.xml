@@ -24,6 +24,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.hinodesoftworks.dailyrpg.HomeActivity" />
         </activity>
+        <activity
+            android:name=".AddQuestActivity"
+            android:label="@string/title_activity_add_quest"
+            android:parentActivityName=".HomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hinodesoftworks.dailyrpg.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

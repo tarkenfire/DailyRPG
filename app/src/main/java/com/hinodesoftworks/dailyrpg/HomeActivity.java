@@ -185,6 +185,20 @@ RandomBattleFragment.OnRBInteractionListener{
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == 200){
+
+            if (resultCode == RESULT_OK){
+                String holder = data.getStringExtra("questDemo");
+                gameManager.hackyQList.add(holder);
+                selectItem(NAV_QUESTS);
+            }
+
+        }
+    }
+
     //fragment interfaces
     @Override
     public void onQuestSelected(int position)

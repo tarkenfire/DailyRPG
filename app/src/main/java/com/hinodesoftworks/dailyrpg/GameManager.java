@@ -14,6 +14,8 @@ public class GameManager{
     private DummyCharacter currChar = null;
     private DummyEnemy currEnemy = null;
 
+    public ArrayList<String> hackyQList;
+
     static GameManager getInstance(Context context){
         if (_instance == null){
             _instance = new GameManager(context);
@@ -25,6 +27,9 @@ public class GameManager{
     private GameManager(Context context){
         this.context = context;
         dbManager = DBManager.getInstance(context);
+
+        hackyQList = new ArrayList<String>();
+        hackyQList.add("Example Quest");
     }
 
     //battle functions
