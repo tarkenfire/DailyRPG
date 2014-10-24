@@ -17,6 +17,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.hinodesoftworks.dailyrpg.database.DBManager;
+
 
 public class HomeActivity extends Activity implements QuestFragment.OnQuestFragmentInteractionListener,
 ShopItemFragment.OnShopFragmentInteractionListener, DungeonFragment.OnDungeonFragmentInteractionListener {
@@ -25,6 +27,8 @@ ShopItemFragment.OnShopFragmentInteractionListener, DungeonFragment.OnDungeonFra
     private DrawerLayout layout;
     private ListView drawerList;
     private ActionBarDrawerToggle drawerToggle;
+
+    private GameManager gameManager;
 
     public static final int REQUEST_CHAR_CREATE = 1;
 
@@ -70,10 +74,13 @@ ShopItemFragment.OnShopFragmentInteractionListener, DungeonFragment.OnDungeonFra
 
         //go to "home" on app launch.
         selectItem(NAV_HOME);
+
+        gameManager = GameManager.getInstance(this);
     }
 
     //button/view click handling
     public void onClick(View sender){
+        Log.e("Click", "Click");
         switch (sender.getId())
         {
             case R.id.main_no_char_warning:

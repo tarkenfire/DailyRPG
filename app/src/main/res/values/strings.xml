@@ -8,6 +8,9 @@
     <string name="drawer_close">Close</string>
     <string name="warning_no_character">You have no player avatar created. Tap the screen to create one.</string>
 
+    <string name="action_create_character">Create</string>
+    <string name="hint_create_character_name">Character Name</string>
+
     <array name="nav_items">
         <item>Home</item>
         <item>Quests</item>

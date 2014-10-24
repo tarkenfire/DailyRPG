@@ -24,13 +24,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.hinodesoftworks.dailyrpg.HomeActivity" />
         </activity>
-
-        <provider
-            android:name=".database.DBContentProvider"
-            android:authorities="com.hinodesoftworks.dailyrpg.contentprovder"
-            android:enabled="true"
-            android:exported="false" >
-        </provider>
     </application>
 
 </manifest>

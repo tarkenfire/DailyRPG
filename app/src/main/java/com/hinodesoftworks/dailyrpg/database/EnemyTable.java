@@ -15,7 +15,7 @@ public class EnemyTable
     public static final String COLUMN_DEF = "enemyDef";
     public static final String COLUMN_MATK = "enemyMAtk";
     public static final String COLUMN_MDEF = "enemyMDef";
-    public static final String COLUMN_EXP_VALUE = "enemyAtk";
+    public static final String COLUMN_EXP_VALUE = "enemyExpValue";
 
     //DB construction statement
     public static final String CREATE_STRING = "create table " +
