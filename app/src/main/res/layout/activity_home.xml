@@ -8,6 +8,7 @@
         android:id="@+id/content_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#e8e6d4"
         />
 
     <ListView android:id="@+id/left_drawer"

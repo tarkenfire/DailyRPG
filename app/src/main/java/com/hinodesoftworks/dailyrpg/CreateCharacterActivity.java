@@ -33,15 +33,15 @@ public class CreateCharacterActivity extends Activity {
 
         //get spinner options from database
         dbManager = DBManager.getInstance(this);
-        dbManager.openDatabase();
-
-        String[] projection = {ClassesTable.COLUMN_ID, ClassesTable.COLUMN_NAME};
-        Cursor classOptions = dbManager.query(ClassesTable.TABLE_NAME, projection, null);
-
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1,classOptions,
-                new String[]{ClassesTable.COLUMN_NAME}, new int[] {android.R.id.text1});
-
-        dbManager.closeDatabase();
+//        dbManager.openDatabase();
+//
+//        String[] projection = {ClassesTable.COLUMN_ID, ClassesTable.COLUMN_NAME};
+//        Cursor classOptions = dbManager.query(ClassesTable.TABLE_NAME, projection, null);
+//
+//        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1,classOptions,
+//                new String[]{ClassesTable.COLUMN_NAME}, new int[] {android.R.id.text1});
+//
+//        dbManager.closeDatabase();
 
         //DUMMY DATA
         classSpinner = (Spinner)findViewById(R.id.classSpinner);
