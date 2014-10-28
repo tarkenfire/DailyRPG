@@ -24,6 +24,11 @@ public class GameManager{
     }
 
     public void init(Character playerCharacter, GameListener listener){
+        //if already initialized, don't do anything
+        if (currentState == GameState.STATE_READY || currentState == GameState.STATE_IN_BATTLE){
+            return;
+        }
+
         this.playerCharacter = playerCharacter;
         _listener = listener;
         currentState = GameState.STATE_READY;
@@ -35,13 +40,28 @@ public class GameManager{
     public void useItem(Item itemToUse){}
     public void flee(){}
 
-    private void nextTurn(){}
+    private void nextTurn(){
+        //check for victory conditions
+
+
+        //fire callback to
+    }
 
     private void battleEnd(){}
 
     private void nextBattle(Enemy nextEnemy){}
 
-    public void newRandomBattle(){}
+    //TODO: pull enemies from data source
+    public void newRandomBattle(){
+        //populate stack, even for one enemy
+        enemyStack = new Stack<Enemy>();
+        enemyStack.push(new Enemy("Enemy", 1, 50, 10, 5));
+
+        nextTurn();
+
+        currentState = GameState.STATE_IN_BATTLE;
+    }
+
     public void newDungeonBattle(){}
     public void newBossRushBattle(){}
 
@@ -52,9 +72,9 @@ public class GameManager{
     ///listener interface
     public interface GameListener{
         //random battle
-        public void onBattleStart();
         public void onBattleEnd();
-        public void onTurnEnd();
+        public void onTurnEnd(Character character, Enemy enemy);
+
 
     }
 

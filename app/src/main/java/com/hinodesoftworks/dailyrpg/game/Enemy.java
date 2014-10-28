@@ -1,5 +1,7 @@
 package com.hinodesoftworks.dailyrpg.game;
 
+import android.util.Log;
+
 public class Enemy{
 
     private String name;
@@ -13,9 +15,49 @@ public class Enemy{
     private int actualMaxHP;
     private int actualCurrentHP;
 
+    //constructors
+    public Enemy(String name, int level, int baseHP, int baseAtk, int baseDef){
+        this.name = name; this.level = level; this.baseHP = baseHP; this.baseAtk = baseAtk;
+        this.baseDef = baseDef;
+
+        this.actualMaxHP = this.actualCurrentHP = getModifiedHP();
+
+
+        //TODO: Debug code, remove
+        Log.e("Enemy Data Dump", "Name: " + this.name + " Level: " + this.level + " Base HP: "
+        + this.baseHP + " ActualHP: " + this.actualMaxHP + " CurrentHP: " + this.actualCurrentHP
+        + " Base Attack: " + this.baseAtk + " Base Defense: " + this.baseDef );
+    }
+
+
+
     //hp manipulation
     public void modifyHP(int value){
-        
+        this.actualCurrentHP += value;
+        //can't be higher than max or lower than 0, modify if needed.
+        if (this.actualCurrentHP > this.actualMaxHP) this.actualCurrentHP = this.actualMaxHP;
+        if (this.actualCurrentHP < 0) this.actualCurrentHP = 0;
+    }
+
+    public boolean isDead(){
+        return actualCurrentHP <= 0;
+    }
+
+    //actual statistic calculations
+    public int getModifiedHP(){
+        float modifier = 0.0f;
+
+        //hp increases by 10% per level
+        for (int h =1; h < this.level; h++){
+            modifier+= .1f;
+        }
+
+        float hpAdd = modifier * this.baseHP;
+
+        //lazy truncate via casting
+        int finalHp = this.baseHP + (int)hpAdd;
+
+        return finalHp;
     }
 
     //TODO: Validate data in mutators

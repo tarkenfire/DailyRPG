@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.hinodesoftworks.dailyrpg.database.DBManager;
+import com.hinodesoftworks.dailyrpg.game.Enemy;
 
 
 public class HomeActivity extends Activity implements QuestFragment.OnQuestFragmentInteractionListener,
@@ -78,6 +79,12 @@ RandomBattleFragment.OnRBInteractionListener{
         selectItem(NAV_HOME);
 
         gameManager = GameManager.getInstance(this);
+
+
+        //TODO debug area
+        Enemy testEnemy = new Enemy("Enemy Name", 1, 100, 10,10);
+        testEnemy.modifyHP(50);
+        testEnemy.modifyHP(-300);
     }
 
     //button/view click handling

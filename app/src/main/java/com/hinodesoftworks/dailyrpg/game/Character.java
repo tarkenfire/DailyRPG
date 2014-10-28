@@ -1,5 +1,7 @@
 package com.hinodesoftworks.dailyrpg.game;
 
+import java.util.Map;
+
 public class Character{
     //constants
     private static final int BASE_EXP_NEED = 1000;
@@ -14,35 +16,62 @@ public class Character{
     private int baseAtk;
     private int baseDef;
 
-    private Item equipHead;
-    private Item equipBody;
-    private Item equipBoots;
-    private Item equipWeapon;
-    private Item equipShield;
+    private Item equipHead = null;
+    private Item equipBody = null;
+    private Item equipBoots = null;
+    private Item equipWeapon = null;
+    private Item equipShield = null;
 
     private int actualMaxHP;
     private int actualCurrentHP;
+    private int actualAtk;
+    private int actualDef;
+
+    //constructors
+    public Character(String name, String className, int level, int baseHP,
+                     int baseAtk, int baseDef, Map<String, Equipment> equipment){
+
+
+        setEquipedItems(equipment);
+    }
 
     //inventory
+    private void setEquipedItems(Map<String, Equipment> itemMap){
+        if (itemMap == null) return;
+
+    }
 
     //hp/exp manipulation
     public void modifyHP(int value){
+        actualCurrentHP += value;
 
     }
 
     public void modifyExp(int value){
-
+        actualCurrentHP += value;
     }
 
     public void reduceExpByTenPercent(){
-
+        experience -= experience * .1f;
     }
+
+    public void restoreHPToFull(){
+        actualCurrentHP = actualMaxHP;
+    }
+
+    public boolean isDead(){
+        return actualCurrentHP <= 0;
+    }
+
+    //stat related methods
+
 
 
     //utility methods
     public String dumpToJSONString(){
         return "";
     }
+
 
     //TODO: validate input on mutators
     //mutators/accessors
@@ -102,46 +131,6 @@ public class Character{
         this.baseDef = baseDef;
     }
 
-    public Item getEquipHead(){
-        return equipHead;
-    }
-
-    public void setEquipHead(Item equipHead){
-        this.equipHead = equipHead;
-    }
-
-    public Item getEquipBody(){
-        return equipBody;
-    }
-
-    public void setEquipBody(Item equipBody){
-        this.equipBody = equipBody;
-    }
-
-    public Item getEquipBoots(){
-        return equipBoots;
-    }
-
-    public void setEquipBoots(Item equipBoots){
-        this.equipBoots = equipBoots;
-    }
-
-    public Item getEquipWeapon(){
-        return equipWeapon;
-    }
-
-    public void setEquipWeapon(Item equipWeapon){
-        this.equipWeapon = equipWeapon;
-    }
-
-    public Item getEquipShield(){
-        return equipShield;
-    }
-
-    public void setEquipShield(Item equipShield){
-        this.equipShield = equipShield;
-    }
-
     public int getActualMaxHP(){
         return actualMaxHP;
     }
@@ -156,5 +145,21 @@ public class Character{
 
     public void setActualCurrentHP(int actualCurrentHP){
         this.actualCurrentHP = actualCurrentHP;
+    }
+
+    public int getActualAtk(){
+        return actualAtk;
+    }
+
+    public void setActualAtk(int actualAtk){
+        this.actualAtk = actualAtk;
+    }
+
+    public int getActualDef(){
+        return actualDef;
+    }
+
+    public void setActualDef(int actualDef){
+        this.actualDef = actualDef;
     }
 }
