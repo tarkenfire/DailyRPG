@@ -35,27 +35,67 @@ public class GameManager{
     }
 
     //battle mechanics section
-    public void attack(){}
-    public void defend(){}
-    public void useItem(Item itemToUse){}
-    public void flee(){}
+    //todo: use derived statistics instead of raw ones
+    public void attack(){
+        playerCharacter.modifyHP(-(currentEnemy.getBaseAtk() > playerCharacter.getBaseDef() ?
+                (currentEnemy.getBaseAtk() - playerCharacter.getBaseDef())  : 0));
+
+        currentEnemy.modifyHP(-(playerCharacter.getBaseAtk() > currentEnemy.getBaseDef() ?
+                (playerCharacter.getBaseAtk() - currentEnemy.getBaseDef())  : 0));
+    }
+
+    public void defend(){
+        playerCharacter.modifyHP(-(currentEnemy.getBaseAtk() > playerCharacter.getBaseDef() ?
+                (currentEnemy.getBaseAtk() - playerCharacter.getBaseDef()) + 10  : 0));
+    }
+
+    public void useItem(Item itemToUse){
+        //TODO: implement
+    }
+
+    public void flee(){
+        _listener.onBattleFled();
+
+        //cleanup since singleton will persist.
+        enemyStack.clear();
+        currentEnemy = null;
+        playerCharacter.restoreHPToFull();
+        currentState = GameState.STATE_READY;
+    }
 
     private void nextTurn(){
         //check for victory conditions
+        if (currentEnemy.isDead() || playerCharacter.isDead()){
 
 
-        //fire callback to
+
+        }
+
+        //fire callback to UI
+        _listener.onTurnEnd(playerCharacter, currentEnemy);
     }
 
-    private void battleEnd(){}
+    private void battleEndVictory(){
+        if (!enemyStack.empty()){
+            currentEnemy = enemyStack.pop();
+            playerCharacter.restoreHPToFull();
+            nextTurn();
+            return;
+        }
 
-    private void nextBattle(Enemy nextEnemy){}
+        currentState = GameState.STATE_READY;
+    }
+
+    private void battleEndDefeat(){
+
+    }
 
     //TODO: pull enemies from data source
     public void newRandomBattle(){
         //populate stack, even for one enemy
         enemyStack = new Stack<Enemy>();
         enemyStack.push(new Enemy("Enemy", 1, 50, 10, 5));
+        currentEnemy = enemyStack.pop();
 
         nextTurn();
 
@@ -74,6 +114,7 @@ public class GameManager{
         //random battle
         public void onBattleEnd();
         public void onTurnEnd(Character character, Enemy enemy);
+        public void onBattleFled();
 
 
     }

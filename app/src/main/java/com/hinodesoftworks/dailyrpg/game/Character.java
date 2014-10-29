@@ -11,6 +11,7 @@ public class Character{
 
     private int level;
     private int experience;
+    private int gold;
 
     private int baseHP;
     private int baseAtk;
@@ -30,7 +31,11 @@ public class Character{
     //constructors
     public Character(String name, String className, int level, int baseHP,
                      int baseAtk, int baseDef, Map<String, Equipment> equipment){
+        this.name = name; this.className = className; this.level = level;
+        this.baseHP = baseHP; this.baseAtk = baseAtk; this.baseDef = baseDef;
 
+        //derive hp
+        this.actualMaxHP = this.actualCurrentHP = getModifiedHP();
 
         setEquipedItems(equipment);
     }
@@ -43,8 +48,10 @@ public class Character{
 
     //hp/exp manipulation
     public void modifyHP(int value){
-        actualCurrentHP += value;
-
+        this.actualCurrentHP += value;
+        //can't be higher than max or lower than 0, modify if needed.
+        if (this.actualCurrentHP > this.actualMaxHP) this.actualCurrentHP = this.actualMaxHP;
+        if (this.actualCurrentHP < 0) this.actualCurrentHP = 0;
     }
 
     public void modifyExp(int value){
@@ -64,7 +71,21 @@ public class Character{
     }
 
     //stat related methods
+    public int getModifiedHP(){
+        float modifier = 0.0f;
 
+        //hp increases by 10% per level
+        for (int h =1; h < this.level; h++){
+            modifier+= .1f;
+        }
+
+        float hpAdd = modifier * this.baseHP;
+
+        //lazy truncate via casting
+        int finalHp = this.baseHP + (int)hpAdd;
+
+        return finalHp;
+    }
 
 
     //utility methods
@@ -161,5 +182,13 @@ public class Character{
 
     public void setActualDef(int actualDef){
         this.actualDef = actualDef;
+    }
+
+    public int getGold(){
+        return gold;
+    }
+
+    public void setGold(int gold){
+        this.gold = gold;
     }
 }

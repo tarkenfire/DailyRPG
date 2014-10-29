@@ -89,7 +89,6 @@ RandomBattleFragment.OnRBInteractionListener{
 
     //button/view click handling
     public void onClick(View sender){
-        Log.e("Click", "Click");
         switch (sender.getId())
         {
             case R.id.main_no_char_warning:
