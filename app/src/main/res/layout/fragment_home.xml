@@ -16,7 +16,6 @@
             android:layout_height="match_parent"
             android:text="@string/warning_no_character"
             android:gravity="center"
-            android:onClick="onClick"
             android:clickable="true"
             android:background="#e8e6d4"
             />

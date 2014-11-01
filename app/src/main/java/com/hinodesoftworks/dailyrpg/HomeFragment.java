@@ -1,5 +1,6 @@
 package com.hinodesoftworks.dailyrpg;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,9 +9,10 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class HomeFragment extends Fragment
+public class HomeFragment extends Fragment implements View.OnClickListener
 {
-    private GameManager manager;
+    private OnHomeInteractionListener mListener;
+
     private TextView warningText;
     private RelativeLayout contentDisplay;
 
@@ -25,8 +27,17 @@ public class HomeFragment extends Fragment
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+    }
 
-        manager = GameManager.getInstance(this.getActivity());
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnHomeInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnHomeInteractionListener");
+        }
     }
 
     @Override
@@ -38,19 +49,20 @@ public class HomeFragment extends Fragment
         nameDisplay = (TextView)getActivity().findViewById(R.id.display_char_name);
         classDisplay = (TextView)getActivity().findViewById(R.id.display_char_class);
 
-        if (manager.doesCharacterExist()){
-            warningText.setVisibility(View.GONE);
-            contentDisplay.setVisibility(View.VISIBLE);
-            nameDisplay.setText("Name: " + manager.getCharacterName());
-            classDisplay.setText("Class:" + manager.getCharacterClass());
+        warningText.setOnClickListener(this);
 
-        }
-        else{
-            warningText.setVisibility(View.VISIBLE);
-            contentDisplay.setVisibility(View.GONE);
-        }
+    }
 
 
 
+    //callback interface
+    public interface OnHomeInteractionListener{
+        public void onHomeResumed();
+        public void onWarningClicked();
+    }
+
+    @Override
+    public void onClick(View view){
+        mListener.onWarningClicked();
     }
 }

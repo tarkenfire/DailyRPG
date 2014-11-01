@@ -22,7 +22,7 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
     private AbsListView mListView;
     private ListAdapter mAdapter;
 
-    private GameManager pGameManger;
+
 
     private String toAdd;
 
@@ -34,11 +34,11 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        pGameManger = GameManager.getInstance(getActivity());
+
 
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, pGameManger.hackyQList);
+        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
+                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
 
         setHasOptionsMenu(true);
 
@@ -121,8 +121,7 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
     {
         int id = item.getItemId();
         if (id == R.id.action_add_quest){
-            Intent i = new Intent(getActivity(), AddQuestActivity.class);
-            getActivity().startActivityForResult(i, 200);
+
         }
 
         return super.onOptionsItemSelected(item);

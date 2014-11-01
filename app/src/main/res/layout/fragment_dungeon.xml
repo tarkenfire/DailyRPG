@@ -9,21 +9,20 @@
               android:paddingTop="@dimen/activity_vertical_margin">
 
     <Button
-        android:id="@+id/battleButton"
+        android:id="@+id/randomBattleButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Random Battle"
-        android:onClick="onClick"/>
+        android:text="Random Battle"/>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/dungeonBattleButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Dungeon Exploration (coming soon)"
         android:enabled="false"/>
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/bossRushButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

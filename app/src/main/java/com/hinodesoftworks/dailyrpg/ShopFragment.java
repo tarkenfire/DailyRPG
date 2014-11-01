@@ -17,14 +17,14 @@ import android.widget.TextView;
 
 import com.hinodesoftworks.dailyrpg.dummy.DummyContent;
 
-public class ShopItemFragment extends Fragment implements AbsListView.OnItemClickListener {
+public class ShopFragment extends Fragment implements AbsListView.OnItemClickListener {
 
     private OnShopFragmentInteractionListener mListener;
     private AbsListView mListView;
     private ListAdapter mAdapter;
     String[] dummyItems = {"Potion - 1 gold", "Sword - 2 gold", "Map - 3 gold"};
 
-    public ShopItemFragment() {
+    public ShopFragment() {
     }
 
     @Override

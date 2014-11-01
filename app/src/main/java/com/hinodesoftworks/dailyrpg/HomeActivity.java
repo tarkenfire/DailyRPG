@@ -8,7 +8,6 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
@@ -18,31 +17,36 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.hinodesoftworks.dailyrpg.database.DBManager;
 import com.hinodesoftworks.dailyrpg.game.Enemy;
 
 
-public class HomeActivity extends Activity implements QuestFragment.OnQuestFragmentInteractionListener,
-ShopItemFragment.OnShopFragmentInteractionListener, DungeonFragment.OnDungeonFragmentInteractionListener,
-RandomBattleFragment.OnRBInteractionListener{
+public class HomeActivity extends Activity implements HomeFragment.OnHomeInteractionListener,
+        QuestFragment.OnQuestFragmentInteractionListener, ShopFragment.OnShopFragmentInteractionListener,
+        DungeonFragment.OnDungeonFragmentInteractionListener, AddCharacterFragment.OnCharacterCreateListener
+{
 
+    //nav drawers variables
     private String[] pageNames;
     private DrawerLayout layout;
     private ListView drawerList;
     private ActionBarDrawerToggle drawerToggle;
 
-    private GameManager gameManager;
-
-    public static final int REQUEST_CHAR_CREATE = 1;
-
-    //nav drawer items are in a fixed position, so create convience constants to refelct this
+    //nav drawer items are in a fixed position, so create convience constants to reflect this
     public static final int NAV_HOME = 0;
     public static final int NAV_QUESTS = 1;
     public static final int NAV_STORE = 2;
     public static final int NAV_DUNGEON = 3;
 
+    //refs to all fragments
+    private HomeFragment homeFragment;
+    private QuestFragment questFragment;
+    private ShopFragment shopFragment;
+    private DungeonFragment dungeonFragment;
+    private AddCharacterFragment addCharacterFragment;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
@@ -52,11 +56,13 @@ RandomBattleFragment.OnRBInteractionListener{
         drawerToggle = new ActionBarDrawerToggle(this, layout, R.drawable.ic_drawer,
                 R.string.drawer_open, R.string.drawer_close){
 
-            public void onDrawerClosed(View view){
+            public void onDrawerClosed(View view)
+            {
                 super.onDrawerClosed(view);
             }
 
-            public void onDrawerOpened(View drawerView){
+            public void onDrawerOpened(View drawerView)
+            {
                 super.onDrawerOpened(drawerView);
             }
 
@@ -71,38 +77,21 @@ RandomBattleFragment.OnRBInteractionListener{
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
         layout.setDrawerListener(drawerToggle);
 
+        //create all fragments at start
+        homeFragment = new HomeFragment();
+        questFragment = new QuestFragment();
+        shopFragment = new ShopFragment();
+        dungeonFragment = new DungeonFragment();
+        addCharacterFragment = new AddCharacterFragment();
+
         //action bar stuff
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
+        //TODO: Draw character from database
+
         //go to "home" on app launch.
         selectItem(NAV_HOME);
-
-        gameManager = GameManager.getInstance(this);
-
-
-        //TODO debug area
-        Enemy testEnemy = new Enemy("Enemy Name", 1, 100, 10,10);
-        testEnemy.modifyHP(50);
-        testEnemy.modifyHP(-300);
-    }
-
-    //button/view click handling
-    public void onClick(View sender){
-        switch (sender.getId())
-        {
-            case R.id.main_no_char_warning:
-                Intent intent = new Intent(this, CreateCharacterActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.battleButton:
-                Fragment battleFragment = new RandomBattleFragment();
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_view, battleFragment)
-                        .commit();
-                break;
-        }
     }
 
     @Override
@@ -120,51 +109,57 @@ RandomBattleFragment.OnRBInteractionListener{
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
 
         //check for nav drawer open on icon click.
-        if (drawerToggle.onOptionsItemSelected(item)){
+        if (drawerToggle.onOptionsItemSelected(item))
+        {
             return true;
         }
 
 
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_settings)
+        {
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu){
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
         //TODO: hide action items, if needed.
 
         return super.onPrepareOptionsMenu(menu);
     }
 
-    private void selectItem(int position){
-        //TODO: Filter by text index
+    private void selectItem(int position)
+    {
         Fragment navFragment = null;
 
-        switch (position){
+        switch (position)
+        {
             case NAV_HOME:
-                navFragment = new HomeFragment();
+                navFragment = homeFragment;
                 break;
             case NAV_QUESTS:
-                navFragment = new QuestFragment();
+                navFragment = questFragment;
                 break;
             case NAV_STORE:
-                navFragment = new ShopItemFragment();
+                navFragment = shopFragment;
                 break;
             case NAV_DUNGEON:
-                navFragment = new DungeonFragment();
+                navFragment = dungeonFragment;
                 break;
             default:
                 //in case of error, default to "home" menu
@@ -183,39 +178,35 @@ RandomBattleFragment.OnRBInteractionListener{
     }
 
     //listener
-    private class DrawerItemClickListener implements ListView.OnItemClickListener{
+    private class DrawerItemClickListener implements ListView.OnItemClickListener
+    {
 
         @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id){
+        public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id)
+        {
             selectItem(pos);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (requestCode == 200){
-
-            if (resultCode == RESULT_OK){
-                String holder = data.getStringExtra("questDemo");
-                gameManager.hackyQList.add(holder);
-                selectItem(NAV_QUESTS);
-            }
-
         }
     }
 
     //fragment interfaces
     @Override
-    public void onQuestSelected(int position)
-    {
+    public void onHomeResumed(){
 
     }
 
     @Override
-    public void onShopItemSelected(String id)
+    public void onWarningClicked(){
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_view, addCharacterFragment)
+                .commit();
+        drawerList.clearChoices();
+    }
+
+    @Override
+    public void onCharacterCreated(Uri uri)
     {
-        Toast.makeText(this, id + " added to inventory", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -225,17 +216,14 @@ RandomBattleFragment.OnRBInteractionListener{
     }
 
     @Override
-    public void onBattleClose()
+    public void onQuestSelected(int position)
     {
-        Fragment homeFrag = new HomeFragment();
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_view, homeFrag)
-                .commit();
+
     }
 
     @Override
-    public void onBattleEnd()
+    public void onShopItemSelected(String id)
     {
 
-    }}
+    }
+}

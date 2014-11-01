@@ -108,6 +108,9 @@ public class GameManager{
     //game utilities
 
 
+    public GameState getCurrentState(){
+        return currentState;
+    }
 
     ///listener interface
     public interface GameListener{
@@ -118,5 +121,6 @@ public class GameManager{
 
 
     }
+
 
 }
