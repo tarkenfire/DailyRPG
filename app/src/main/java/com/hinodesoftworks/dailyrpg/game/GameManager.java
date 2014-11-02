@@ -8,8 +8,23 @@ public class GameManager{
     public enum GameState{ STATE_NOT_INITIALIZED, STATE_READY, STATE_IN_BATTLE}
     public enum BattleMode{ MODE_RANDOM, MODE_DUNGEON, MODE_BOSS }
 
+    public static final int BATTLE_CHOICE_ATTACK = 101;
+    public static final int BATTLE_CHOICE_DEFEND = 102;
+    public static final int BATTLE_CHOICE_ITEM = 103;
+    public static final int BATTLE_CHOICE_FLEE = 104;
+
+
     private GameState currentState = GameState.STATE_NOT_INITIALIZED;
     private BattleMode currentMode = BattleMode.MODE_RANDOM;
+
+    public Character getPlayerCharacter(){
+        return playerCharacter;
+    }
+
+    public Enemy getCurrentEnemy(){
+        return currentEnemy;
+    }
+
     private Character playerCharacter = null;
     private Enemy currentEnemy = null;
     private Stack<Enemy> enemyStack;
@@ -49,15 +64,19 @@ public class GameManager{
 
         currentEnemy.modifyHP(-(playerCharacter.getBaseAtk() > currentEnemy.getBaseDef() ?
                 (playerCharacter.getBaseAtk() - currentEnemy.getBaseDef())  : 0));
+
+        nextTurn();
     }
 
     public void defend(){
         playerCharacter.modifyHP(-(currentEnemy.getBaseAtk() > playerCharacter.getBaseDef() ?
                 (currentEnemy.getBaseAtk() - playerCharacter.getBaseDef()) + 10  : 0));
+        nextTurn();
     }
 
     public void useItem(Item itemToUse){
         //TODO: implement
+        nextTurn();
     }
 
     public void flee(){
@@ -72,10 +91,14 @@ public class GameManager{
 
     private void nextTurn(){
         //check for victory conditions
-        if (currentEnemy.isDead() || playerCharacter.isDead()){
+        if (currentEnemy.isDead()){
+            battleEndVictory();
+            return;
+        }
 
-
-
+        if (playerCharacter.isDead()){
+            battleEndDefeat();
+            return;
         }
 
         //fire callback to UI
@@ -90,27 +113,33 @@ public class GameManager{
             return;
         }
 
+        _listener.onBattleEnd();
         currentState = GameState.STATE_READY;
     }
 
     private void battleEndDefeat(){
-
+        _listener.onBattleEnd();
     }
 
-    //TODO: pull enemies from data source
-    public void newRandomBattle(){
-        //populate stack, even for one enemy
+    public void createNewBattle(){
         enemyStack = new Stack<Enemy>();
-        enemyStack.push(new Enemy("Enemy", 1, 50, 10, 5));
-        currentEnemy = enemyStack.pop();
+
+        //get mode, then populate stack accordingly
+        switch (currentMode){
+            case MODE_RANDOM:
+                //one enemy, random.
+                enemyStack.push(new Enemy("Random Enemy", 1, 50, 10, 5));
+                currentEnemy = enemyStack.pop(); //is redundant for single enemy
+                break;
+            case MODE_DUNGEON:
+                throw new UnsupportedOperationException("Not Implemented yet, why are you calling this, me?");
+            case MODE_BOSS:
+                throw new UnsupportedOperationException("Not Implemented yet, why are you calling this, me?");
+        }
 
         nextTurn();
-
         currentState = GameState.STATE_IN_BATTLE;
     }
-
-    public void newDungeonBattle(){}
-    public void newBossRushBattle(){}
 
     //game utilities
 

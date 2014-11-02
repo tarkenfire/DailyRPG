@@ -24,7 +24,7 @@ import com.hinodesoftworks.dailyrpg.game.Character;
 public class HomeActivity extends Activity implements HomeFragment.OnHomeInteractionListener,
         QuestFragment.OnQuestFragmentInteractionListener, ShopFragment.OnShopFragmentInteractionListener,
         DungeonFragment.OnDungeonFragmentInteractionListener, AddCharacterFragment.OnCharacterCreateListener,
-        GameManager.GameListener
+        GameManager.GameListener, BattleFragment.OnBattleInteractionListener
 {
 
     //nav drawers variables
@@ -215,8 +215,7 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     }
 
     @Override
-    public void onCharacterCreated(Uri uri)
-    {
+    public void onCharacterCreated(Uri uri){
 
     }
 
@@ -245,14 +244,42 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     }
 
     @Override
-    public void onQuestSelected(int position)
-    {
+    public void onQuestSelected(int position){
 
     }
 
     @Override
-    public void onShopItemSelected(String id)
-    {
+    public void onShopItemSelected(String id){
+
+    }
+
+    //battle fragment
+    @Override
+    public void onBattleChoice(int choice){
+        switch (choice){
+            case GameManager.BATTLE_CHOICE_ATTACK:
+                gameManager.attack();
+                break;
+            case GameManager.BATTLE_CHOICE_DEFEND:
+                gameManager.defend();
+                break;
+            case GameManager.BATTLE_CHOICE_ITEM:
+                //TODO: Doesn't really make sense as it is. Either change how "items" work or
+                //figure out better way to do this.
+                gameManager.useItem(new Consumable());
+                break;
+            case GameManager.BATTLE_CHOICE_FLEE:
+                gameManager.flee();
+                break;
+        }
+    }
+
+    @Override
+    public void onFragmentAttached(){
+        gameManager.createNewBattle();
+        battleFragment.updateUI(gameManager.getPlayerCharacter(),
+                gameManager.getCurrentEnemy() != null ? gameManager.getCurrentEnemy() :
+                        new Enemy("Enemy",100, 50, 20,10));
 
     }
 
@@ -265,11 +292,15 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
 
     @Override
     public void onTurnEnd(com.hinodesoftworks.dailyrpg.game.Character character, Enemy enemy) {
-
+        battleFragment.updateUI(gameManager.getPlayerCharacter(),
+                gameManager.getCurrentEnemy() != null ? gameManager.getCurrentEnemy() :
+                        new Enemy("Enemy",100, 50, 20,10));
     }
 
     @Override
     public void onBattleFled() {
 
     }
+
+
 }
