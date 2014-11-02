@@ -28,6 +28,8 @@ public class Character{
     private int actualAtk;
     private int actualDef;
 
+    private boolean hasEquipment = false;
+
     //constructors
     public Character(String name, String className, int level, int baseHP,
                      int baseAtk, int baseDef, Map<String, Equipment> equipment){

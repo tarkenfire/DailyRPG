@@ -7,24 +7,20 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
-
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link com.hinodesoftworks.dailyrpg.DungeonFragment.OnDungeonFragmentInteractionListener} interface
- * to handle interaction events.
- *
- */
-public class DungeonFragment extends Fragment {
+public class DungeonFragment extends Fragment implements View.OnClickListener {
 
     private OnDungeonFragmentInteractionListener mListener;
+
+    //UI
+    Button randomBattleButton;
+    Button dungeonButton;
+    Button bRushButton;
 
     public DungeonFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,12 +29,19 @@ public class DungeonFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_dungeon, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        randomBattleButton = (Button)getActivity().findViewById(R.id.randomBattleButton);
+        dungeonButton = (Button)getActivity().findViewById(R.id.dungeonBattleButton);
+        bRushButton = (Button)getActivity().findViewById(R.id.bossRushButton);
+
+        randomBattleButton.setOnClickListener(this);
+        dungeonButton.setOnClickListener(this);
+        bRushButton.setOnClickListener(this);
     }
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -57,9 +60,14 @@ public class DungeonFragment extends Fragment {
         mListener = null;
     }
 
+    //button listener
+    @Override
+    public void onClick(View view){
+        mListener.onButtonPressed(view.getId());
+    }
+
     public interface OnDungeonFragmentInteractionListener{
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+        public void onButtonPressed(int id);
     }
 
 }

@@ -17,12 +17,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.hinodesoftworks.dailyrpg.game.Enemy;
+import com.hinodesoftworks.dailyrpg.game.*;
+import com.hinodesoftworks.dailyrpg.game.Character;
 
 
 public class HomeActivity extends Activity implements HomeFragment.OnHomeInteractionListener,
         QuestFragment.OnQuestFragmentInteractionListener, ShopFragment.OnShopFragmentInteractionListener,
-        DungeonFragment.OnDungeonFragmentInteractionListener, AddCharacterFragment.OnCharacterCreateListener
+        DungeonFragment.OnDungeonFragmentInteractionListener, AddCharacterFragment.OnCharacterCreateListener,
+        GameManager.GameListener
 {
 
     //nav drawers variables
@@ -43,6 +45,10 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     private ShopFragment shopFragment;
     private DungeonFragment dungeonFragment;
     private AddCharacterFragment addCharacterFragment;
+    private BattleFragment battleFragment;
+
+    //managers
+    private GameManager gameManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -83,6 +89,11 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         shopFragment = new ShopFragment();
         dungeonFragment = new DungeonFragment();
         addCharacterFragment = new AddCharacterFragment();
+        battleFragment = new BattleFragment();
+
+        //init managers
+        gameManager = GameManager.getInstance();
+        gameManager.init(new Character("Player", "Super Player",1, 100, 50, 40, null ), this);
 
         //action bar stuff
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -209,9 +220,27 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
 
     }
 
+    //from dungeon fragment
     @Override
-    public void onFragmentInteraction(Uri uri)
-    {
+    public void onButtonPressed(int id){
+        switch (id){
+            case R.id.randomBattleButton:
+                gameManager.setBattleMode(GameManager.BattleMode.MODE_RANDOM);
+                break;
+            case R.id.dungeonBattleButton:
+                gameManager.setBattleMode(GameManager.BattleMode.MODE_DUNGEON);
+                break;
+            case R.id.bossRushButton:
+                gameManager.setBattleMode(GameManager.BattleMode.MODE_BOSS);
+                break;
+        }
+
+        //change to battle fragment
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_view, battleFragment)
+                .commit();
+        drawerList.clearChoices();
 
     }
 
@@ -224,6 +253,23 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     @Override
     public void onShopItemSelected(String id)
     {
+
+    }
+
+    //game manager methods
+
+    @Override
+    public void onBattleEnd() {
+
+    }
+
+    @Override
+    public void onTurnEnd(com.hinodesoftworks.dailyrpg.game.Character character, Enemy enemy) {
+
+    }
+
+    @Override
+    public void onBattleFled() {
 
     }
 }

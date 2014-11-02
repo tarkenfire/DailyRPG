@@ -6,8 +6,10 @@ import java.util.Stack;
 
 public class GameManager{
     public enum GameState{ STATE_NOT_INITIALIZED, STATE_READY, STATE_IN_BATTLE}
+    public enum BattleMode{ MODE_RANDOM, MODE_DUNGEON, MODE_BOSS }
 
     private GameState currentState = GameState.STATE_NOT_INITIALIZED;
+    private BattleMode currentMode = BattleMode.MODE_RANDOM;
     private Character playerCharacter = null;
     private Enemy currentEnemy = null;
     private Stack<Enemy> enemyStack;
@@ -36,6 +38,11 @@ public class GameManager{
 
     //battle mechanics section
     //todo: use derived statistics instead of raw ones
+
+    public void setBattleMode(BattleMode mode){
+        this.currentMode = mode;
+    }
+
     public void attack(){
         playerCharacter.modifyHP(-(currentEnemy.getBaseAtk() > playerCharacter.getBaseDef() ?
                 (currentEnemy.getBaseAtk() - playerCharacter.getBaseDef())  : 0));
