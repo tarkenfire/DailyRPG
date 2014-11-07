@@ -19,6 +19,12 @@
         <item>Dungeon</item>
     </array>
 
+    <array name="class_names">
+        <item>Warrior</item>
+        <item>Thief</item>
+        <item>Paladin</item>
+    </array>
+
     <string name="title_activity_create_character">CreateCharacterActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_add_quest">AddQuestActivity</string>

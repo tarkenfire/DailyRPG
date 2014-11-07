@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hinodesoftworks.dailyrpg.game.*;
+
 public class HomeFragment extends Fragment implements View.OnClickListener
 {
     private OnHomeInteractionListener mListener;
@@ -50,10 +52,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener
         classDisplay = (TextView)getActivity().findViewById(R.id.display_char_class);
 
         warningText.setOnClickListener(this);
-
+        mListener.onHomeResumed();
     }
 
+    //methods called from home activity
+    public void setWarningVisibility(boolean isVisible){
+        if (isVisible){
+            warningText.setVisibility(View.VISIBLE);
+            contentDisplay.setVisibility(View.GONE);
+        }
+        else{
+            warningText.setVisibility(View.GONE);
+            contentDisplay.setVisibility(View.VISIBLE);
+        }
+    }
 
+    public void updatePlayerUI(com.hinodesoftworks.dailyrpg.game.Character player){
+
+    }
 
     //callback interface
     public interface OnHomeInteractionListener{

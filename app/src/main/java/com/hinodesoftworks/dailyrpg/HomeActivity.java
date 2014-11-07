@@ -93,7 +93,7 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
 
         //init managers
         gameManager = GameManager.getInstance();
-        gameManager.init(new Character("Player", "Super Player",1, 100, 50, 40, null ), this);
+        gameManager.init(null, this);
 
         //action bar stuff
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -202,7 +202,14 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     //fragment interfaces
     @Override
     public void onHomeResumed(){
+        if (gameManager.getPlayerCharacter() == null){
+            homeFragment.setWarningVisibility(true);
+        }
+        else{
+            homeFragment.setWarningVisibility(true);
+            homeFragment.updatePlayerUI(gameManager.getPlayerCharacter());
 
+        }
     }
 
     @Override
@@ -215,7 +222,7 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     }
 
     @Override
-    public void onCharacterCreated(Uri uri){
+    public void onCharacterCreated(Character character){
 
     }
 

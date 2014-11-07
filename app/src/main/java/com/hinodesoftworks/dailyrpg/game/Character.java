@@ -42,6 +42,12 @@ public class Character{
         setEquipedItems(equipment);
     }
 
+    //factory method for "new", blank character creation
+    public static Character createNewCharacter(String name, String className){
+        //TODO: Make different classes have different stats
+        return new Character(name, className, 1, 100, 40, 30, null);
+    }
+
     //inventory
     private void setEquipedItems(Map<String, Equipment> itemMap){
         if (itemMap == null) return;

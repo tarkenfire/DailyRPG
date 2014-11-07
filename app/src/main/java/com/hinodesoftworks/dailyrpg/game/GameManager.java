@@ -142,7 +142,9 @@ public class GameManager{
     }
 
     //game utilities
-
+    public void updateCharacter (Character character){
+        this.playerCharacter = character;
+    }
 
     public GameState getCurrentState(){
         return currentState;
