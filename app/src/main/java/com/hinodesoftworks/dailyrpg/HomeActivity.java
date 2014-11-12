@@ -21,6 +21,8 @@ import com.hinodesoftworks.dailyrpg.game.*;
 import com.hinodesoftworks.dailyrpg.game.Character;
 
 
+//TODO: Get a class variable to hold fragment manager so as to not call .getFragmentManager so much
+
 public class HomeActivity extends Activity implements HomeFragment.OnHomeInteractionListener,
         QuestFragment.OnQuestFragmentInteractionListener, ShopFragment.OnShopFragmentInteractionListener,
         DungeonFragment.OnDungeonFragmentInteractionListener, AddCharacterFragment.OnCharacterCreateListener,
@@ -51,8 +53,7 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     private GameManager gameManager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
@@ -106,22 +107,19 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState)
-    {
+    protected void onPostCreate(Bundle savedInstanceState){
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig)
-    {
+    public void onConfigurationChanged(Configuration newConfig){
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu){
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
@@ -206,7 +204,7 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
             homeFragment.setWarningVisibility(true);
         }
         else{
-            homeFragment.setWarningVisibility(true);
+            homeFragment.setWarningVisibility(false);
             homeFragment.updatePlayerUI(gameManager.getPlayerCharacter());
 
         }
@@ -221,9 +219,21 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         drawerList.clearChoices();
     }
 
+    //char create fragment
     @Override
     public void onCharacterCreated(Character character){
+        gameManager.updateCharacter(character);
 
+        //TODO: Hard-coded string
+        Toast.makeText(this, "Character Created", Toast.LENGTH_SHORT).show();
+
+        //change back to home fragment
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_view, homeFragment)
+                .commit();
+
+        drawerList.setItemChecked(NAV_HOME, true);
     }
 
     //from dungeon fragment

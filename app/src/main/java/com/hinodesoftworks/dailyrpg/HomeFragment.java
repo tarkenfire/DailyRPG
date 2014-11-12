@@ -68,7 +68,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener
     }
 
     public void updatePlayerUI(com.hinodesoftworks.dailyrpg.game.Character player){
-
+        nameDisplay.setText(player.getName());
+        classDisplay.setText("Level " + player.getLevel() + " " +player.getClassName());
     }
 
     //callback interface
