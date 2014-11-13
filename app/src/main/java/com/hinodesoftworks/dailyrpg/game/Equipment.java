@@ -1,5 +1,4 @@
 package com.hinodesoftworks.dailyrpg.game;
 
-public class Equipment extends Item
-{
+public class Equipment extends Item {
 }

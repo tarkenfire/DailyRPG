@@ -1,10 +1,14 @@
 package com.hinodesoftworks.dailyrpg;
 
 import android.app.Activity;
-import android.content.Intent;import android.os.Bundle;
+import android.content.Intent;
+import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;import android.view.MenuInflater;import android.view.MenuItem;import android.view.View;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -23,7 +27,6 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
     private ListAdapter mAdapter;
 
 
-
     private String toAdd;
 
 
@@ -33,7 +36,6 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
 
         // TODO: Change Adapter to display your content
@@ -60,14 +62,11 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
     }
 
     @Override
-    public void onAttach(Activity activity)
-    {
+    public void onAttach(Activity activity) {
         super.onAttach(activity);
-        try
-        {
+        try {
             mListener = (OnQuestFragmentInteractionListener) activity;
-        } catch (ClassCastException e)
-        {
+        } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
         }
@@ -104,24 +103,23 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
         }
     }
 
-    public interface OnQuestFragmentInteractionListener{
+    public interface OnQuestFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onQuestSelected(int position);
+
         public void onAddQuestPressed();
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         getActivity().getMenuInflater().inflate(R.menu.quest, menu);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_add_quest){
+        if (id == R.id.action_add_quest) {
             mListener.onAddQuestPressed();
         }
 

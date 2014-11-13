@@ -7,13 +7,12 @@ import android.widget.ArrayAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestListAdapter extends ArrayAdapter <Quest>{
+public class QuestListAdapter extends ArrayAdapter<Quest> {
     private Activity context;
     private ArrayList<Quest> quests;
 
 
-
-    public QuestListAdapter(Context context, int resource, List<Quest> objects){
+    public QuestListAdapter(Context context, int resource, List<Quest> objects) {
         super(context, resource, objects);
     }
 }

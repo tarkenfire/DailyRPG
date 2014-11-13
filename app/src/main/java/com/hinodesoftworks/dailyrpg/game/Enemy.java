@@ -2,7 +2,7 @@ package com.hinodesoftworks.dailyrpg.game;
 
 import android.util.Log;
 
-public class Enemy{
+public class Enemy {
 
     private String name;
 
@@ -16,8 +16,11 @@ public class Enemy{
     private int actualCurrentHP;
 
     //constructors
-    public Enemy(String name, int level, int baseHP, int baseAtk, int baseDef){
-        this.name = name; this.level = level; this.baseHP = baseHP; this.baseAtk = baseAtk;
+    public Enemy(String name, int level, int baseHP, int baseAtk, int baseDef) {
+        this.name = name;
+        this.level = level;
+        this.baseHP = baseHP;
+        this.baseAtk = baseAtk;
         this.baseDef = baseDef;
 
         this.actualMaxHP = this.actualCurrentHP = getModifiedHP();
@@ -25,96 +28,95 @@ public class Enemy{
 
         //TODO: Debug code, remove
         Log.e("Enemy Data Dump", "Name: " + this.name + " Level: " + this.level + " Base HP: "
-        + this.baseHP + " ActualHP: " + this.actualMaxHP + " CurrentHP: " + this.actualCurrentHP
-        + " Base Attack: " + this.baseAtk + " Base Defense: " + this.baseDef );
+                + this.baseHP + " ActualHP: " + this.actualMaxHP + " CurrentHP: " + this.actualCurrentHP
+                + " Base Attack: " + this.baseAtk + " Base Defense: " + this.baseDef);
     }
 
 
-
     //hp manipulation
-    public void modifyHP(int value){
+    public void modifyHP(int value) {
         this.actualCurrentHP += value;
         //can't be higher than max or lower than 0, modify if needed.
         if (this.actualCurrentHP > this.actualMaxHP) this.actualCurrentHP = this.actualMaxHP;
         if (this.actualCurrentHP < 0) this.actualCurrentHP = 0;
     }
 
-    public boolean isDead(){
+    public boolean isDead() {
         return actualCurrentHP <= 0;
     }
 
     //actual statistic calculations
-    public int getModifiedHP(){
+    public int getModifiedHP() {
         float modifier = 0.0f;
 
         //hp increases by 10% per level
-        for (int h =1; h < this.level; h++){
-            modifier+= .1f;
+        for (int h = 1; h < this.level; h++) {
+            modifier += .1f;
         }
 
         float hpAdd = modifier * this.baseHP;
 
         //lazy truncate via casting
-        int finalHp = this.baseHP + (int)hpAdd;
+        int finalHp = this.baseHP + (int) hpAdd;
 
         return finalHp;
     }
 
     //TODO: Validate data in mutators
     //mutators/accessors
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
-    public int getLevel(){
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(int level){
+    public void setLevel(int level) {
         this.level = level;
     }
 
-    public int getBaseHP(){
+    public int getBaseHP() {
         return baseHP;
     }
 
-    public void setBaseHP(int baseHP){
+    public void setBaseHP(int baseHP) {
         this.baseHP = baseHP;
     }
 
-    public int getBaseAtk(){
+    public int getBaseAtk() {
         return baseAtk;
     }
 
-    public void setBaseAtk(int baseAtk){
+    public void setBaseAtk(int baseAtk) {
         this.baseAtk = baseAtk;
     }
 
-    public int getBaseDef(){
+    public int getBaseDef() {
         return baseDef;
     }
 
-    public void setBaseDef(int baseDef){
+    public void setBaseDef(int baseDef) {
         this.baseDef = baseDef;
     }
 
-    public int getActualMaxHP(){
+    public int getActualMaxHP() {
         return actualMaxHP;
     }
 
-    public void setActualMaxHP(int actualMaxHP){
+    public void setActualMaxHP(int actualMaxHP) {
         this.actualMaxHP = actualMaxHP;
     }
 
-    public int getActualCurrentHP(){
+    public int getActualCurrentHP() {
         return actualCurrentHP;
     }
 
-    public void setActualCurrentHP(int actualCurrentHP){
+    public void setActualCurrentHP(int actualCurrentHP) {
         this.actualCurrentHP = actualCurrentHP;
     }
 }

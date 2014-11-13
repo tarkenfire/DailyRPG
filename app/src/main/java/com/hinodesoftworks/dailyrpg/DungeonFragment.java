@@ -33,9 +33,9 @@ public class DungeonFragment extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
 
-        randomBattleButton = (Button)getActivity().findViewById(R.id.randomBattleButton);
-        dungeonButton = (Button)getActivity().findViewById(R.id.dungeonBattleButton);
-        bRushButton = (Button)getActivity().findViewById(R.id.bossRushButton);
+        randomBattleButton = (Button) getActivity().findViewById(R.id.randomBattleButton);
+        dungeonButton = (Button) getActivity().findViewById(R.id.dungeonBattleButton);
+        bRushButton = (Button) getActivity().findViewById(R.id.bossRushButton);
 
         randomBattleButton.setOnClickListener(this);
         dungeonButton.setOnClickListener(this);
@@ -62,11 +62,11 @@ public class DungeonFragment extends Fragment implements View.OnClickListener {
 
     //button listener
     @Override
-    public void onClick(View view){
+    public void onClick(View view) {
         mListener.onButtonPressed(view.getId());
     }
 
-    public interface OnDungeonFragmentInteractionListener{
+    public interface OnDungeonFragmentInteractionListener {
         public void onButtonPressed(int id);
     }
 

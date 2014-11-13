@@ -38,11 +38,11 @@ public class AddQuestFragment extends Fragment implements
     private long timeMillis;
 
 
-    public AddQuestFragment(){
+    public AddQuestFragment() {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //set time to current time on create
@@ -54,22 +54,22 @@ public class AddQuestFragment extends Fragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState){
+                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_quest, container, false);
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
         Activity context = getActivity();
 
-        nameField = (EditText)context.findViewById(R.id.quest_name_field);
-        detailsField = (EditText)context.findViewById(R.id.quest_details_field);
-        typeSpinner = (Spinner)context.findViewById(R.id.quest_type_spinner);
-        dateButton = (Button)context.findViewById(R.id.quest_date_button);
-        timeButton = (Button)context.findViewById(R.id.quest_time_button);
+        nameField = (EditText) context.findViewById(R.id.quest_name_field);
+        detailsField = (EditText) context.findViewById(R.id.quest_details_field);
+        typeSpinner = (Spinner) context.findViewById(R.id.quest_type_spinner);
+        dateButton = (Button) context.findViewById(R.id.quest_date_button);
+        timeButton = (Button) context.findViewById(R.id.quest_time_button);
 
         //set handlers
         dateButton.setOnClickListener(this);
@@ -86,27 +86,25 @@ public class AddQuestFragment extends Fragment implements
     }
 
     @Override
-    public void onAttach(Activity activity){
+    public void onAttach(Activity activity) {
         super.onAttach(activity);
-        try
-        {
+        try {
             mListener = (OnAddQuestInteractionListener) activity;
-        } catch (ClassCastException e)
-        {
+        } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
         }
     }
 
     @Override
-    public void onDetach(){
+    public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
     //utility methods
-    public void updateUI(){
-       //TODO: hard coded strings
+    public void updateUI() {
+        //TODO: hard coded strings
         DateFormat df = SimpleDateFormat.getDateInstance();
         DateFormat hf = SimpleDateFormat.getTimeInstance();
 
@@ -114,32 +112,31 @@ public class AddQuestFragment extends Fragment implements
         timeButton.setText("Time Due: " + hf.format(new Date(timeMillis)));
     }
 
-    private void showDateDialog(){
+    private void showDateDialog() {
 
     }
 
-    private void showTimeDialog(){
+    private void showTimeDialog() {
         TimePickerDialogFragment timePicker = new TimePickerDialogFragment();
         timePicker.setListener(this);
         timePicker.show(getActivity().getFragmentManager(), "timePicker");
     }
 
 
-
     //interfaces
-    public interface OnAddQuestInteractionListener{
+    public interface OnAddQuestInteractionListener {
         public void onQuestCreated(Quest quest);
     }
 
     //implemented methods
     @Override
-    public void onTimePicked(long timeInMillis){
+    public void onTimePicked(long timeInMillis) {
 
     }
 
     @Override
-    public void onClick(View view){
-        switch (view.getId()){
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.quest_date_button:
 
                 break;

@@ -15,7 +15,7 @@ public class TimePickerDialogFragment extends DialogFragment implements
     private OnTimePickedListener mListener;
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState){
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
@@ -25,16 +25,16 @@ public class TimePickerDialogFragment extends DialogFragment implements
     }
 
     @Override
-    public void onTimeSet(TimePicker timePicker, int hour, int minute){
+    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
 
     }
 
     //listener/interface methods
-    public void setListener(OnTimePickedListener listener){
+    public void setListener(OnTimePickedListener listener) {
         mListener = listener;
     }
 
-    public interface OnTimePickedListener{
+    public interface OnTimePickedListener {
         public void onTimePicked(long timeInMillis);
     }
 }

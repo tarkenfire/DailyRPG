@@ -4,9 +4,10 @@ import android.app.Activity;
 
 import java.util.Stack;
 
-public class GameManager{
-    public enum GameState{ STATE_NOT_INITIALIZED, STATE_READY, STATE_IN_BATTLE}
-    public enum BattleMode{ MODE_RANDOM, MODE_DUNGEON, MODE_BOSS }
+public class GameManager {
+    public enum GameState {STATE_NOT_INITIALIZED, STATE_READY, STATE_IN_BATTLE}
+
+    public enum BattleMode {MODE_RANDOM, MODE_DUNGEON, MODE_BOSS}
 
     public static final int BATTLE_CHOICE_ATTACK = 101;
     public static final int BATTLE_CHOICE_DEFEND = 102;
@@ -17,11 +18,11 @@ public class GameManager{
     private GameState currentState = GameState.STATE_NOT_INITIALIZED;
     private BattleMode currentMode = BattleMode.MODE_RANDOM;
 
-    public Character getPlayerCharacter(){
+    public Character getPlayerCharacter() {
         return playerCharacter;
     }
 
-    public Enemy getCurrentEnemy(){
+    public Enemy getCurrentEnemy() {
         return currentEnemy;
     }
 
@@ -33,16 +34,16 @@ public class GameManager{
     private static GameManager _instance = null;
     private GameListener _listener = null;
 
-    public static GameManager getInstance(){
-        if (_instance == null){
+    public static GameManager getInstance() {
+        if (_instance == null) {
             _instance = new GameManager();
         }
         return _instance;
     }
 
-    public void init(Character playerCharacter, GameListener listener){
+    public void init(Character playerCharacter, GameListener listener) {
         //if already initialized, don't do anything
-        if (currentState == GameState.STATE_READY || currentState == GameState.STATE_IN_BATTLE){
+        if (currentState == GameState.STATE_READY || currentState == GameState.STATE_IN_BATTLE) {
             return;
         }
 
@@ -54,32 +55,32 @@ public class GameManager{
     //battle mechanics section
     //todo: use derived statistics instead of raw ones
 
-    public void setBattleMode(BattleMode mode){
+    public void setBattleMode(BattleMode mode) {
         this.currentMode = mode;
     }
 
-    public void attack(){
+    public void attack() {
         playerCharacter.modifyHP(-(currentEnemy.getBaseAtk() > playerCharacter.getBaseDef() ?
-                (currentEnemy.getBaseAtk() - playerCharacter.getBaseDef())  : 0));
+                (currentEnemy.getBaseAtk() - playerCharacter.getBaseDef()) : 0));
 
         currentEnemy.modifyHP(-(playerCharacter.getBaseAtk() > currentEnemy.getBaseDef() ?
-                (playerCharacter.getBaseAtk() - currentEnemy.getBaseDef())  : 0));
+                (playerCharacter.getBaseAtk() - currentEnemy.getBaseDef()) : 0));
 
         nextTurn();
     }
 
-    public void defend(){
+    public void defend() {
         playerCharacter.modifyHP(-(currentEnemy.getBaseAtk() > playerCharacter.getBaseDef() ?
-                (currentEnemy.getBaseAtk() - playerCharacter.getBaseDef()) + 10  : 0));
+                (currentEnemy.getBaseAtk() - playerCharacter.getBaseDef()) + 10 : 0));
         nextTurn();
     }
 
-    public void useItem(Item itemToUse){
+    public void useItem(Item itemToUse) {
         //TODO: implement
         nextTurn();
     }
 
-    public void flee(){
+    public void flee() {
         _listener.onBattleFled();
 
         //cleanup since singleton will persist.
@@ -89,14 +90,14 @@ public class GameManager{
         currentState = GameState.STATE_READY;
     }
 
-    private void nextTurn(){
+    private void nextTurn() {
         //check for victory conditions
-        if (currentEnemy.isDead()){
+        if (currentEnemy.isDead()) {
             battleEndVictory();
             return;
         }
 
-        if (playerCharacter.isDead()){
+        if (playerCharacter.isDead()) {
             battleEndDefeat();
             return;
         }
@@ -105,8 +106,8 @@ public class GameManager{
         _listener.onTurnEnd(playerCharacter, currentEnemy);
     }
 
-    private void battleEndVictory(){
-        if (!enemyStack.empty()){
+    private void battleEndVictory() {
+        if (!enemyStack.empty()) {
             currentEnemy = enemyStack.pop();
             playerCharacter.restoreHPToFull();
             nextTurn();
@@ -117,15 +118,15 @@ public class GameManager{
         currentState = GameState.STATE_READY;
     }
 
-    private void battleEndDefeat(){
+    private void battleEndDefeat() {
         _listener.onBattleEnd();
     }
 
-    public void createNewBattle(){
+    public void createNewBattle() {
         enemyStack = new Stack<Enemy>();
 
         //get mode, then populate stack accordingly
-        switch (currentMode){
+        switch (currentMode) {
             case MODE_RANDOM:
                 //one enemy, random.
                 enemyStack.push(new Enemy("Random Enemy", 1, 50, 10, 5));
@@ -142,19 +143,21 @@ public class GameManager{
     }
 
     //game utilities
-    public void updateCharacter (Character character){
+    public void updateCharacter(Character character) {
         this.playerCharacter = character;
     }
 
-    public GameState getCurrentState(){
+    public GameState getCurrentState() {
         return currentState;
     }
 
     ///listener interface
-    public interface GameListener{
+    public interface GameListener {
         //random battle
         public void onBattleEnd();
+
         public void onTurnEnd(Character character, Enemy enemy);
+
         public void onBattleFled();
 
 

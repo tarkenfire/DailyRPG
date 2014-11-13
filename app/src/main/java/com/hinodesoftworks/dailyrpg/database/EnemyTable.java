@@ -2,8 +2,7 @@ package com.hinodesoftworks.dailyrpg.database;
 
 import android.database.sqlite.SQLiteDatabase;
 
-public class EnemyTable
-{
+public class EnemyTable {
     //DB construction variables
     public static final String TABLE_NAME = "enemies";
     public static final String COLUMN_ID = "_id";
@@ -35,11 +34,11 @@ public class EnemyTable
 
 
     //helper methods
-    public static void onCreate(SQLiteDatabase database){
+    public static void onCreate(SQLiteDatabase database) {
         database.execSQL(CREATE_STRING);
     }
 
-    public static void onUpgrade(){
+    public static void onUpgrade() {
         //TODO: implement upgrade logic
     }
 }

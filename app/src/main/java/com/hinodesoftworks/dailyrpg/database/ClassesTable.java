@@ -3,8 +3,7 @@ package com.hinodesoftworks.dailyrpg.database;
 
 import android.database.sqlite.SQLiteDatabase;
 
-public class ClassesTable
-{
+public class ClassesTable {
     //DB construction variables
     public static final String TABLE_NAME = "classes";
     public static final String COLUMN_ID = "_id";
@@ -32,11 +31,11 @@ public class ClassesTable
 
 
     //helper methods
-    public static void onCreate(SQLiteDatabase database){
+    public static void onCreate(SQLiteDatabase database) {
         database.execSQL(CREATE_STRING);
     }
 
-    public static void onUpgrade(){
+    public static void onUpgrade() {
         //TODO: implement upgrade logic
     }
 }

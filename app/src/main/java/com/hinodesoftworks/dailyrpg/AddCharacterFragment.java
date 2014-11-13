@@ -29,7 +29,7 @@ public class AddCharacterFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
@@ -61,11 +61,11 @@ public class AddCharacterFragment extends Fragment {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
-        nameInput = (EditText)getActivity().findViewById(R.id.create_char_name);
-        classSpinner = (Spinner)getActivity().findViewById(R.id.create_class_spinner);
+        nameInput = (EditText) getActivity().findViewById(R.id.create_char_name);
+        classSpinner = (Spinner) getActivity().findViewById(R.id.create_class_spinner);
 
         //TODO: Dynamic init of spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.class_names,
@@ -76,15 +76,15 @@ public class AddCharacterFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         getActivity().getMenuInflater().inflate(R.menu.create_character, menu);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_create_character){
+        if (id == R.id.action_create_character) {
             String nameHolder = nameInput.getText().toString();
 
             mListener.onCharacterCreated(Character.createNewCharacter(

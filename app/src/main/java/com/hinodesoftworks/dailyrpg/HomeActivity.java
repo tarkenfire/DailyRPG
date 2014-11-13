@@ -27,8 +27,7 @@ import com.hinodesoftworks.dailyrpg.todo.Quest;
 public class HomeActivity extends Activity implements HomeFragment.OnHomeInteractionListener,
         QuestFragment.OnQuestFragmentInteractionListener, ShopFragment.OnShopFragmentInteractionListener,
         DungeonFragment.OnDungeonFragmentInteractionListener, AddCharacterFragment.OnCharacterCreateListener,
-        GameManager.GameListener, BattleFragment.OnBattleInteractionListener, AddQuestFragment.OnAddQuestInteractionListener
-{
+        GameManager.GameListener, BattleFragment.OnBattleInteractionListener, AddQuestFragment.OnAddQuestInteractionListener {
 
     //nav drawers variables
     private String[] pageNames;
@@ -55,7 +54,7 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     private GameManager gameManager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
@@ -63,15 +62,13 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         layout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         drawerToggle = new ActionBarDrawerToggle(this, layout, R.drawable.ic_drawer,
-                R.string.drawer_open, R.string.drawer_close){
+                R.string.drawer_open, R.string.drawer_close) {
 
-            public void onDrawerClosed(View view)
-            {
+            public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
             }
 
-            public void onDrawerOpened(View drawerView)
-            {
+            public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
             }
 
@@ -110,57 +107,51 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState){
+    protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig){
+    public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
 
         //check for nav drawer open on icon click.
-        if (drawerToggle.onOptionsItemSelected(item))
-        {
+        if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
 
 
         int id = item.getItemId();
-        if (id == R.id.action_settings)
-        {
+        if (id == R.id.action_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
+    public boolean onPrepareOptionsMenu(Menu menu) {
         //TODO: hide action items, if needed.
 
         return super.onPrepareOptionsMenu(menu);
     }
 
-    private void selectItem(int position)
-    {
+    private void selectItem(int position) {
         Fragment navFragment = null;
 
-        switch (position)
-        {
+        switch (position) {
             case NAV_HOME:
                 navFragment = homeFragment;
                 break;
@@ -192,23 +183,20 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     //utility methods
 
     //listener
-    private class DrawerItemClickListener implements ListView.OnItemClickListener
-    {
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
 
         @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id)
-        {
+        public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
             selectItem(pos);
         }
     }
 
     //fragment interfaces
     @Override
-    public void onHomeResumed(){
-        if (gameManager.getPlayerCharacter() == null){
+    public void onHomeResumed() {
+        if (gameManager.getPlayerCharacter() == null) {
             homeFragment.setWarningVisibility(true);
-        }
-        else{
+        } else {
             homeFragment.setWarningVisibility(false);
             homeFragment.updatePlayerUI(gameManager.getPlayerCharacter());
 
@@ -216,7 +204,7 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     }
 
     @Override
-    public void onWarningClicked(){
+    public void onWarningClicked() {
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.content_view, addCharacterFragment)
@@ -226,7 +214,7 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
 
     //char create fragment
     @Override
-    public void onCharacterCreated(Character character){
+    public void onCharacterCreated(Character character) {
         gameManager.updateCharacter(character);
 
         //TODO: Hard-coded string
@@ -243,8 +231,8 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
 
     //from dungeon fragment
     @Override
-    public void onButtonPressed(int id){
-        switch (id){
+    public void onButtonPressed(int id) {
+        switch (id) {
             case R.id.randomBattleButton:
                 gameManager.setBattleMode(GameManager.BattleMode.MODE_RANDOM);
                 break;
@@ -267,11 +255,11 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
 
     //quest fragment
     @Override
-    public void onQuestSelected(int position){
+    public void onQuestSelected(int position) {
 
     }
 
-    public void onAddQuestPressed(){
+    public void onAddQuestPressed() {
         //changed to add fragment
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
@@ -281,14 +269,14 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     }
 
     @Override
-    public void onShopItemSelected(String id){
+    public void onShopItemSelected(String id) {
 
     }
 
     //battle fragment
     @Override
-    public void onBattleChoice(int choice){
-        switch (choice){
+    public void onBattleChoice(int choice) {
+        switch (choice) {
             case GameManager.BATTLE_CHOICE_ATTACK:
                 gameManager.attack();
                 break;
@@ -307,18 +295,18 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     }
 
     @Override
-    public void onFragmentAttached(){
+    public void onFragmentAttached() {
         gameManager.createNewBattle();
         battleFragment.updateUI(gameManager.getPlayerCharacter(),
                 gameManager.getCurrentEnemy() != null ? gameManager.getCurrentEnemy() :
-                        new Enemy("Enemy",100, 50, 20,10));
+                        new Enemy("Enemy", 100, 50, 20, 10));
 
     }
 
 
     //add quest fragment
     @Override
-    public void onQuestCreated(Quest quest){
+    public void onQuestCreated(Quest quest) {
 
     }
 
@@ -333,7 +321,7 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     public void onTurnEnd(com.hinodesoftworks.dailyrpg.game.Character character, Enemy enemy) {
         battleFragment.updateUI(gameManager.getPlayerCharacter(),
                 gameManager.getCurrentEnemy() != null ? gameManager.getCurrentEnemy() :
-                        new Enemy("Enemy",100, 50, 20,10));
+                        new Enemy("Enemy", 100, 50, 20, 10));
     }
 
     @Override

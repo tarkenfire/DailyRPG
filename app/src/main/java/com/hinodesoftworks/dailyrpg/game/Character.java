@@ -2,7 +2,7 @@ package com.hinodesoftworks.dailyrpg.game;
 
 import java.util.Map;
 
-public class Character{
+public class Character {
     //constants
     private static final int BASE_EXP_NEED = 1000;
 
@@ -32,9 +32,13 @@ public class Character{
 
     //constructors
     public Character(String name, String className, int level, int baseHP,
-                     int baseAtk, int baseDef, Map<String, Equipment> equipment){
-        this.name = name; this.className = className; this.level = level;
-        this.baseHP = baseHP; this.baseAtk = baseAtk; this.baseDef = baseDef;
+                     int baseAtk, int baseDef, Map<String, Equipment> equipment) {
+        this.name = name;
+        this.className = className;
+        this.level = level;
+        this.baseHP = baseHP;
+        this.baseAtk = baseAtk;
+        this.baseDef = baseDef;
 
         //derive hp
         this.actualMaxHP = this.actualCurrentHP = getModifiedHP();
@@ -43,160 +47,160 @@ public class Character{
     }
 
     //factory method for "new", blank character creation
-    public static Character createNewCharacter(String name, String className){
+    public static Character createNewCharacter(String name, String className) {
         //TODO: Make different classes have different stats
         return new Character(name, className, 1, 100, 40, 30, null);
     }
 
     //inventory
-    private void setEquipedItems(Map<String, Equipment> itemMap){
+    private void setEquipedItems(Map<String, Equipment> itemMap) {
         if (itemMap == null) return;
 
     }
 
     //hp/exp manipulation
-    public void modifyHP(int value){
+    public void modifyHP(int value) {
         this.actualCurrentHP += value;
         //can't be higher than max or lower than 0, modify if needed.
         if (this.actualCurrentHP > this.actualMaxHP) this.actualCurrentHP = this.actualMaxHP;
         if (this.actualCurrentHP < 0) this.actualCurrentHP = 0;
     }
 
-    public void modifyExp(int value){
+    public void modifyExp(int value) {
         actualCurrentHP += value;
     }
 
-    public void reduceExpByTenPercent(){
+    public void reduceExpByTenPercent() {
         experience -= experience * .1f;
     }
 
-    public void restoreHPToFull(){
+    public void restoreHPToFull() {
         actualCurrentHP = actualMaxHP;
     }
 
-    public boolean isDead(){
+    public boolean isDead() {
         return actualCurrentHP <= 0;
     }
 
     //stat related methods
-    public int getModifiedHP(){
+    public int getModifiedHP() {
         float modifier = 0.0f;
 
         //hp increases by 10% per level
-        for (int h =1; h < this.level; h++){
-            modifier+= .1f;
+        for (int h = 1; h < this.level; h++) {
+            modifier += .1f;
         }
 
         float hpAdd = modifier * this.baseHP;
 
         //lazy truncate via casting
-        int finalHp = this.baseHP + (int)hpAdd;
+        int finalHp = this.baseHP + (int) hpAdd;
 
         return finalHp;
     }
 
 
     //utility methods
-    public String dumpToJSONString(){
+    public String dumpToJSONString() {
         return "";
     }
 
 
     //TODO: validate input on mutators
     //mutators/accessors
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getClassName(){
+    public String getClassName() {
         return className;
     }
 
-    public void setClassName(String className){
+    public void setClassName(String className) {
         this.className = className;
     }
 
-    public int getLevel(){
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(int level){
+    public void setLevel(int level) {
         this.level = level;
     }
 
-    public int getExperience(){
+    public int getExperience() {
         return experience;
     }
 
-    public void setExperience(int experience){
+    public void setExperience(int experience) {
         this.experience = experience;
     }
 
-    public int getBaseHP(){
+    public int getBaseHP() {
         return baseHP;
     }
 
-    public void setBaseHP(int baseHP){
+    public void setBaseHP(int baseHP) {
         this.baseHP = baseHP;
     }
 
-    public int getBaseAtk(){
+    public int getBaseAtk() {
         return baseAtk;
     }
 
-    public void setBaseAtk(int baseAtk){
+    public void setBaseAtk(int baseAtk) {
         this.baseAtk = baseAtk;
     }
 
-    public int getBaseDef(){
+    public int getBaseDef() {
         return baseDef;
     }
 
-    public void setBaseDef(int baseDef){
+    public void setBaseDef(int baseDef) {
         this.baseDef = baseDef;
     }
 
-    public int getActualMaxHP(){
+    public int getActualMaxHP() {
         return actualMaxHP;
     }
 
-    public void setActualMaxHP(int actualMaxHP){
+    public void setActualMaxHP(int actualMaxHP) {
         this.actualMaxHP = actualMaxHP;
     }
 
-    public int getActualCurrentHP(){
+    public int getActualCurrentHP() {
         return actualCurrentHP;
     }
 
-    public void setActualCurrentHP(int actualCurrentHP){
+    public void setActualCurrentHP(int actualCurrentHP) {
         this.actualCurrentHP = actualCurrentHP;
     }
 
-    public int getActualAtk(){
+    public int getActualAtk() {
         return actualAtk;
     }
 
-    public void setActualAtk(int actualAtk){
+    public void setActualAtk(int actualAtk) {
         this.actualAtk = actualAtk;
     }
 
-    public int getActualDef(){
+    public int getActualDef() {
         return actualDef;
     }
 
-    public void setActualDef(int actualDef){
+    public void setActualDef(int actualDef) {
         this.actualDef = actualDef;
     }
 
-    public int getGold(){
+    public int getGold() {
         return gold;
     }
 
-    public void setGold(int gold){
+    public void setGold(int gold) {
         this.gold = gold;
     }
 }

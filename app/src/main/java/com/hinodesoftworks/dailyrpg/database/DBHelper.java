@@ -9,21 +9,20 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.util.Log;
 
-public class DBHelper extends SQLiteOpenHelper
-{
+public class DBHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "drpg-data.db";
     private static final int DB_VERSION = 1;
 
     private Context ctx;
 
-    public DBHelper(Context context){
+    public DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         ctx = context;
 
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase){
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
         //add tables
         CharacterTable.onCreate(sqLiteDatabase);
         EnemyTable.onCreate(sqLiteDatabase);
@@ -40,12 +39,8 @@ public class DBHelper extends SQLiteOpenHelper
                 "classBaseMAtk, classBaseDef, classBaseMDef) VALUES ('Cleric', 80, 100, 15, 15, 25, 25)");
     }
 
-
-
-
-
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2){
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {
         //TODO: Actually do upgrade logic
     }
 }

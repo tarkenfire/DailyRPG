@@ -36,7 +36,6 @@ public class ShopFragment extends Fragment implements AbsListView.OnItemClickLis
                 android.R.layout.simple_list_item_1, dummyItems);
 
 
-
     }
 
     @Override
@@ -61,7 +60,7 @@ public class ShopFragment extends Fragment implements AbsListView.OnItemClickLis
             mListener = (OnShopFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                + " must implement OnFragmentInteractionListener");
+                    + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -82,8 +81,7 @@ public class ShopFragment extends Fragment implements AbsListView.OnItemClickLis
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -100,7 +98,7 @@ public class ShopFragment extends Fragment implements AbsListView.OnItemClickLis
         }
     }
 
-    public interface OnShopFragmentInteractionListener{
+    public interface OnShopFragmentInteractionListener {
         public void onShopItemSelected(String id);
     }
 

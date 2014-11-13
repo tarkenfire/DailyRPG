@@ -11,8 +11,7 @@ import android.widget.TextView;
 
 import com.hinodesoftworks.dailyrpg.game.*;
 
-public class HomeFragment extends Fragment implements View.OnClickListener
-{
+public class HomeFragment extends Fragment implements View.OnClickListener {
     private OnHomeInteractionListener mListener;
 
     private TextView warningText;
@@ -22,12 +21,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener
     private TextView classDisplay;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
@@ -43,43 +42,43 @@ public class HomeFragment extends Fragment implements View.OnClickListener
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        warningText = (TextView)getActivity().findViewById(R.id.main_no_char_warning);
-        contentDisplay = (RelativeLayout)getActivity().findViewById(R.id.home_character_details);
+        warningText = (TextView) getActivity().findViewById(R.id.main_no_char_warning);
+        contentDisplay = (RelativeLayout) getActivity().findViewById(R.id.home_character_details);
 
-        nameDisplay = (TextView)getActivity().findViewById(R.id.display_char_name);
-        classDisplay = (TextView)getActivity().findViewById(R.id.display_char_class);
+        nameDisplay = (TextView) getActivity().findViewById(R.id.display_char_name);
+        classDisplay = (TextView) getActivity().findViewById(R.id.display_char_class);
 
         warningText.setOnClickListener(this);
         mListener.onHomeResumed();
     }
 
     //methods called from home activity
-    public void setWarningVisibility(boolean isVisible){
-        if (isVisible){
+    public void setWarningVisibility(boolean isVisible) {
+        if (isVisible) {
             warningText.setVisibility(View.VISIBLE);
             contentDisplay.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             warningText.setVisibility(View.GONE);
             contentDisplay.setVisibility(View.VISIBLE);
         }
     }
 
-    public void updatePlayerUI(com.hinodesoftworks.dailyrpg.game.Character player){
+    public void updatePlayerUI(com.hinodesoftworks.dailyrpg.game.Character player) {
         nameDisplay.setText(player.getName());
-        classDisplay.setText("Level " + player.getLevel() + " " +player.getClassName());
+        classDisplay.setText("Level " + player.getLevel() + " " + player.getClassName());
     }
 
     //callback interface
-    public interface OnHomeInteractionListener{
+    public interface OnHomeInteractionListener {
         public void onHomeResumed();
+
         public void onWarningClicked();
     }
 
     @Override
-    public void onClick(View view){
+    public void onClick(View view) {
         mListener.onWarningClicked();
     }
 }
