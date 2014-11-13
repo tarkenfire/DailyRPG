@@ -22,8 +22,8 @@ public class BattleFragment extends Fragment implements View.OnClickListener
     private OnBattleInteractionListener mListener;
 
 
-    private TextView playerName; private TextView playerHP; private TextView playerAtk; private TextView playerDef;
-    private TextView enemyName; private TextView enemyHP; private TextView enemyAtk; private TextView enemyDef;
+    private TextView playerName, playerHP, playerAtk, playerDef;
+    private TextView enemyName, enemyHP, enemyAtk, enemyDef;
 
 
 

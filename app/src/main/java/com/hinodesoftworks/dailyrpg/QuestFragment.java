@@ -107,6 +107,7 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
     public interface OnQuestFragmentInteractionListener{
         // TODO: Update argument type and name
         public void onQuestSelected(int position);
+        public void onAddQuestPressed();
     }
 
     @Override
@@ -121,7 +122,7 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
     {
         int id = item.getItemId();
         if (id == R.id.action_add_quest){
-
+            mListener.onAddQuestPressed();
         }
 
         return super.onOptionsItemSelected(item);

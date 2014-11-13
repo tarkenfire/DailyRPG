@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.hinodesoftworks.dailyrpg.game.*;
 import com.hinodesoftworks.dailyrpg.game.Character;
+import com.hinodesoftworks.dailyrpg.todo.Quest;
 
 
 //TODO: Get a class variable to hold fragment manager so as to not call .getFragmentManager so much
@@ -26,7 +27,7 @@ import com.hinodesoftworks.dailyrpg.game.Character;
 public class HomeActivity extends Activity implements HomeFragment.OnHomeInteractionListener,
         QuestFragment.OnQuestFragmentInteractionListener, ShopFragment.OnShopFragmentInteractionListener,
         DungeonFragment.OnDungeonFragmentInteractionListener, AddCharacterFragment.OnCharacterCreateListener,
-        GameManager.GameListener, BattleFragment.OnBattleInteractionListener
+        GameManager.GameListener, BattleFragment.OnBattleInteractionListener, AddQuestFragment.OnAddQuestInteractionListener
 {
 
     //nav drawers variables
@@ -48,6 +49,7 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     private DungeonFragment dungeonFragment;
     private AddCharacterFragment addCharacterFragment;
     private BattleFragment battleFragment;
+    private AddQuestFragment addQuestFragment;
 
     //managers
     private GameManager gameManager;
@@ -91,6 +93,7 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         dungeonFragment = new DungeonFragment();
         addCharacterFragment = new AddCharacterFragment();
         battleFragment = new BattleFragment();
+        addQuestFragment = new AddQuestFragment();
 
         //init managers
         gameManager = GameManager.getInstance();
@@ -186,6 +189,8 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         layout.closeDrawer(drawerList);
     }
 
+    //utility methods
+
     //listener
     private class DrawerItemClickListener implements ListView.OnItemClickListener
     {
@@ -260,9 +265,19 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
 
     }
 
+    //quest fragment
     @Override
     public void onQuestSelected(int position){
 
+    }
+
+    public void onAddQuestPressed(){
+        //changed to add fragment
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_view, addQuestFragment)
+                .commit();
+        drawerList.clearChoices();
     }
 
     @Override
@@ -297,6 +312,13 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         battleFragment.updateUI(gameManager.getPlayerCharacter(),
                 gameManager.getCurrentEnemy() != null ? gameManager.getCurrentEnemy() :
                         new Enemy("Enemy",100, 50, 20,10));
+
+    }
+
+
+    //add quest fragment
+    @Override
+    public void onQuestCreated(Quest quest){
 
     }
 
