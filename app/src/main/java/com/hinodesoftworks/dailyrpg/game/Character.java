@@ -94,9 +94,7 @@ public class Character {
         float hpAdd = modifier * this.baseHP;
 
         //lazy truncate via casting
-        int finalHp = this.baseHP + (int) hpAdd;
-
-        return finalHp;
+        return this.baseHP + (int) hpAdd;
     }
 
 
