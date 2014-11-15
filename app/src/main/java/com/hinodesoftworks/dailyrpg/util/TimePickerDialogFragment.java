@@ -26,7 +26,7 @@ public class TimePickerDialogFragment extends DialogFragment implements
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-
+        mListener.onTimePicked(hour, minute);
     }
 
     //listener/interface methods
@@ -35,6 +35,6 @@ public class TimePickerDialogFragment extends DialogFragment implements
     }
 
     public interface OnTimePickedListener {
-        public void onTimePicked(long timeInMillis);
+        public void onTimePicked(int hour, int minute);
     }
 }

@@ -8,14 +8,19 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.text.format.Time;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.hinodesoftworks.dailyrpg.todo.Quest;
+import com.hinodesoftworks.dailyrpg.util.DatePickerDialogFragment;
 import com.hinodesoftworks.dailyrpg.util.TimePickerDialogFragment;
 
 import java.text.DateFormat;
@@ -25,7 +30,8 @@ import java.util.Date;
 
 
 public class AddQuestFragment extends Fragment implements
-        TimePickerDialogFragment.OnTimePickedListener, View.OnClickListener {
+        TimePickerDialogFragment.OnTimePickedListener, View.OnClickListener,
+        DatePickerDialogFragment.OnDatePickedListener {
 
     private OnAddQuestInteractionListener mListener;
 
@@ -34,8 +40,9 @@ public class AddQuestFragment extends Fragment implements
     private Spinner typeSpinner;
     private Button dateButton, timeButton;
 
-    //time related constants
-    private long timeMillis;
+    //time related vars
+    private int month, day, year;
+    private int hour, minute;
 
 
     public AddQuestFragment() {
@@ -47,7 +54,16 @@ public class AddQuestFragment extends Fragment implements
 
         //set time to current time on create
         Calendar c = Calendar.getInstance();
-        timeMillis = c.getTimeInMillis();
+
+        month = c.get(Calendar.MONTH);
+        day = c.get(Calendar.DAY_OF_MONTH);
+        year = c.get(Calendar.YEAR);
+        hour = c.get(Calendar.HOUR_OF_DAY);
+        minute = c.get(Calendar.MINUTE);
+
+
+        //notify of adding button to action bar
+        setHasOptionsMenu(true);
 
     }
 
@@ -102,24 +118,79 @@ public class AddQuestFragment extends Fragment implements
         mListener = null;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        getActivity().getMenuInflater().inflate(R.menu.add_quest, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_quest_submit) {
+            submitQuest();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     //utility methods
-    public void updateUI() {
-        //TODO: hard coded strings
+    public void updateUI(){
         DateFormat df = SimpleDateFormat.getDateInstance();
         DateFormat hf = SimpleDateFormat.getTimeInstance();
 
-        dateButton.setText("Due Date: " + df.format(new Date(timeMillis)));
-        timeButton.setText("Time Due: " + hf.format(new Date(timeMillis)));
+        Calendar formatCalendar = Calendar.getInstance();
+        formatCalendar.set(year, month, day, hour, minute);
+
+        //TODO: Hard coded strings
+        dateButton.setText("Due Date: " + df.format(formatCalendar.getTime()));
+        timeButton.setText("Time Due: " + hf.format(formatCalendar.getTime()));
+
     }
 
     private void showDateDialog() {
-
+        DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
+        datePicker.setListener(this);
+        datePicker.show(getActivity().getFragmentManager(), "datePicker");
     }
 
     private void showTimeDialog() {
         TimePickerDialogFragment timePicker = new TimePickerDialogFragment();
         timePicker.setListener(this);
         timePicker.show(getActivity().getFragmentManager(), "timePicker");
+    }
+
+    private void submitQuest(){
+        String qName = nameField.getText().toString();
+        String qDetails = nameField.getText().toString();
+        Quest.QuestType qType = Quest.QuestType.QUEST_SINGLE;
+        long timeMillis;
+
+        //TODO: Hard coded numbers
+        switch(typeSpinner.getSelectedItemPosition()){
+            case 0:
+                qType = Quest.QuestType.QUEST_SINGLE;
+                break;
+            case 1:
+                qType = Quest.QuestType.QUEST_DAILY;
+                break;
+            case 2:
+                qType = Quest.QuestType.QUEST_MONTHLY;
+                break;
+        }
+
+        Calendar c = Calendar.getInstance();
+        c.set(year, month, day, hour, minute);
+
+        timeMillis = c.getTimeInMillis();
+
+
+        mListener.onQuestCreated(new Quest(
+                qType,
+                qName.matches("") ? "Untiled Quest" : qName,
+                qDetails.matches("") ? "No Details" : qDetails,
+                timeMillis
+        ));
     }
 
 
@@ -130,15 +201,25 @@ public class AddQuestFragment extends Fragment implements
 
     //implemented methods
     @Override
-    public void onTimePicked(long timeInMillis) {
+    public void onTimePicked(int hour, int minute) {
+        this.hour = hour;
+        this.minute = minute;
+        updateUI();
+    }
 
+    @Override
+    public void onDatePicked(int year, int month, int day) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        updateUI();
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.quest_date_button:
-
+                showDateDialog();
                 break;
             case R.id.quest_time_button:
                 showTimeDialog();

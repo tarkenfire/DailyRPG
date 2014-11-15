@@ -1,11 +1,9 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.hinodesoftworks.dailyrpg.AddQuestActivity" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never" />
-    <item android:id="@+id/action_submit"
+    <item android:id="@+id/action_quest_submit"
           android:title="@string/action_add_quest"
           android:orderInCategory="1"
           android:showAsAction="always" />
