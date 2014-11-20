@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.hinodesoftworks.dailyrpg.game.*;
 import com.hinodesoftworks.dailyrpg.game.Character;
 import com.hinodesoftworks.dailyrpg.todo.Quest;
+import com.hinodesoftworks.dailyrpg.todo.QuestManager;
 
 
 //TODO: Get a class variable to hold fragment manager so as to not call .getFragmentManager so much
@@ -52,6 +53,7 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
 
     //managers
     private GameManager gameManager;
+    private QuestManager questManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +97,7 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         //init managers
         gameManager = GameManager.getInstance();
         gameManager.init(null, this);
+        questManager = QuestManager.getInstance(this);
 
         //action bar stuff
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -268,6 +271,7 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         drawerList.clearChoices();
     }
 
+    //shop fragment
     @Override
     public void onShopItemSelected(String id) {
 

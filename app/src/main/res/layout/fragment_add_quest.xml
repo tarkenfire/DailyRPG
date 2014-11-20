@@ -26,11 +26,21 @@
         <EditText
             android:id="@+id/quest_details_field"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:inputType="textMultiLine"
             android:ems="10"
             android:layout_weight="0.18"
             android:hint="Quest Details"/>
+
+        <EditText
+            android:id="@+id/quest_exp_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="Experience Value"
+            />
+
+
 
         <Spinner
             android:id="@+id/quest_type_spinner"
@@ -51,6 +61,7 @@
             android:layout_height="wrap_content"
             android:text="New Button"
             />
+
 
     </LinearLayout>
 </FrameLayout>

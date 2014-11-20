@@ -58,6 +58,20 @@
                 android:layout_height="wrap_content"
                 android:text="HP: 100"/>
 
+            <TextView
+                android:id="@+id/display_exp_pool"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/display_hp"
+                android:text="EXP: "/>
+
+            <Button
+                android:id="@+id/display_level_up_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="Level Up"/>
+
 
         </RelativeLayout>
 

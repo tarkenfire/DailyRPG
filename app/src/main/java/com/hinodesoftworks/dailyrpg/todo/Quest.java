@@ -7,16 +7,14 @@ public class Quest {
     private QuestType currentType = QuestType.QUEST_SINGLE;
     private String questName, questDetails;
     private long dueTimeInMillis;
+    private int experiencePoints;
 
 
-    public Quest(QuestType questType, String questName, String questDetails, long dueTimeInMillis) {
+    public Quest(QuestType questType, String questName, String questDetails, long dueTimeInMillis,
+                    int rewardPoints) {
         this.currentType = questType; this.questName = questName; this.questDetails = questDetails;
-        this.dueTimeInMillis = dueTimeInMillis;
+        this.dueTimeInMillis = dueTimeInMillis; this.experiencePoints = rewardPoints;
     }
-
-
-
-
 
     public QuestType getCurrentType() {
         return currentType;
@@ -49,4 +47,6 @@ public class Quest {
     public void setDueTimeInMillis(long dueTimeInMillis) {
         this.dueTimeInMillis = dueTimeInMillis;
     }
+
+
 }

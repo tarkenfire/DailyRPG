@@ -36,7 +36,7 @@ public class AddQuestFragment extends Fragment implements
     private OnAddQuestInteractionListener mListener;
 
     //ui handles
-    private EditText nameField, detailsField;
+    private EditText nameField, detailsField, expField;
     private Spinner typeSpinner;
     private Button dateButton, timeButton;
 
@@ -83,6 +83,7 @@ public class AddQuestFragment extends Fragment implements
 
         nameField = (EditText) context.findViewById(R.id.quest_name_field);
         detailsField = (EditText) context.findViewById(R.id.quest_details_field);
+        expField = (EditText)context.findViewById(R.id.quest_exp_field);
         typeSpinner = (Spinner) context.findViewById(R.id.quest_type_spinner);
         dateButton = (Button) context.findViewById(R.id.quest_date_button);
         timeButton = (Button) context.findViewById(R.id.quest_time_button);
@@ -162,7 +163,7 @@ public class AddQuestFragment extends Fragment implements
 
     private void submitQuest(){
         String qName = nameField.getText().toString();
-        String qDetails = nameField.getText().toString();
+        String qDetails = detailsField.getText().toString();
         Quest.QuestType qType = Quest.QuestType.QUEST_SINGLE;
         long timeMillis;
 
@@ -183,13 +184,15 @@ public class AddQuestFragment extends Fragment implements
         c.set(year, month, day, hour, minute);
 
         timeMillis = c.getTimeInMillis();
+        int expValue = Integer.parseInt(expField.getText().toString());
 
 
         mListener.onQuestCreated(new Quest(
                 qType,
                 qName.matches("") ? "Untiled Quest" : qName,
                 qDetails.matches("") ? "No Details" : qDetails,
-                timeMillis
+                timeMillis,
+                expValue
         ));
     }
 

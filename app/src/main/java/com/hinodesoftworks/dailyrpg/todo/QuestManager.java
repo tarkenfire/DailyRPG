@@ -28,4 +28,17 @@ public class QuestManager {
     public void setQuests(ArrayList<Quest> quests) {
         this.quests = quests;
     }
+
+    public ArrayList<Quest> getQuests(){
+        return quests;
+    }
+
+    public void addQuest(Quest questToAdd){
+        quests.add(questToAdd);
+    }
+
+    public void removeQuest(Quest questToRemove){
+        quests.remove(questToRemove);
+    }
+
 }

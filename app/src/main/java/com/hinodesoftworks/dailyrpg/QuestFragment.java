@@ -44,6 +44,9 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
 
         setHasOptionsMenu(true);
 
+
+
+
     }
 
     @Override
@@ -88,6 +91,10 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
             // fragment is attached to one) that an item has been selected.
             mListener.onQuestSelected(position);
         }
+    }
+
+    public void updateList(){
+
     }
 
     /**
