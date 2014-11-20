@@ -3,6 +3,7 @@ package com.hinodesoftworks.dailyrpg.todo;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,11 +26,23 @@ public class QuestListAdapter extends ArrayAdapter<Quest> {
     private ArrayList<Quest> quests;
 
 
-    public QuestListAdapter(Context context, int resource, List<Quest> quests) {
+    public QuestListAdapter(Context context, int resource, ArrayList<Quest> quests) {
         super(context, resource, quests);
 
         this.context = context;
-        this.quests = (ArrayList<Quest>)quests;
+        this.quests = quests;
+
+        Log.e("HI LIST", "Size: " + quests.size());
+    }
+
+    @Override
+    public void add(Quest object) {
+        quests.add(object);
+    }
+
+    @Override
+    public void clear() {
+        quests.clear();
     }
 
     @Override

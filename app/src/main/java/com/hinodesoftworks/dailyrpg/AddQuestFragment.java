@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.hinodesoftworks.dailyrpg.todo.Quest;
 import com.hinodesoftworks.dailyrpg.util.DatePickerDialogFragment;
@@ -184,7 +185,17 @@ public class AddQuestFragment extends Fragment implements
         c.set(year, month, day, hour, minute);
 
         timeMillis = c.getTimeInMillis();
-        int expValue = Integer.parseInt(expField.getText().toString());
+
+        int expValue;
+
+        try{
+            expValue = Integer.parseInt(expField.getText().toString());
+        }
+        catch(NumberFormatException e){
+            Toast.makeText(getActivity(), "Experience must not be left blank", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
 
 
         mListener.onQuestCreated(new Quest(

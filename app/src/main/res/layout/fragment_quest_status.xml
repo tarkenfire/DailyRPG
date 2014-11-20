@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/q_status_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Status"/>
+
+    <TextView
+        android:id="@+id/q_time_due"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Status"/>
+
+    <TextView
+        android:id="@+id/q_status_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Details"/>
+
+    <TextView
+        android:id="@+id/q_status_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Type"/>
+
+    <Button
+        android:id="@+id/q_status_complete_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Complete"/>
+
+    <Button
+        android:id="@+id/q_status_ok_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ok"/>
+
+</LinearLayout>

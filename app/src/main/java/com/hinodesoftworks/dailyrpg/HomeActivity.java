@@ -22,11 +22,15 @@ import com.hinodesoftworks.dailyrpg.game.Character;
 import com.hinodesoftworks.dailyrpg.todo.Quest;
 import com.hinodesoftworks.dailyrpg.todo.QuestManager;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 
 //TODO: Get a class variable to hold fragment manager so as to not call .getFragmentManager so much
 
 public class HomeActivity extends Activity implements HomeFragment.OnHomeInteractionListener,
-        QuestFragment.OnQuestFragmentInteractionListener, ShopFragment.OnShopFragmentInteractionListener,
+        QuestFragment.OnQuestFragmentInteractionListener,
         DungeonFragment.OnDungeonFragmentInteractionListener, AddCharacterFragment.OnCharacterCreateListener,
         GameManager.GameListener, BattleFragment.OnBattleInteractionListener, AddQuestFragment.OnAddQuestInteractionListener {
 
@@ -39,17 +43,17 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     //nav drawer items are in a fixed position, so create convience constants to reflect this
     public static final int NAV_HOME = 0;
     public static final int NAV_QUESTS = 1;
-    public static final int NAV_STORE = 2;
-    public static final int NAV_DUNGEON = 3;
+    public static final int NAV_DUNGEON = 2;
 
     //refs to all fragments
     private HomeFragment homeFragment;
     private QuestFragment questFragment;
-    private ShopFragment shopFragment;
     private DungeonFragment dungeonFragment;
     private AddCharacterFragment addCharacterFragment;
     private BattleFragment battleFragment;
     private AddQuestFragment addQuestFragment;
+
+
 
     //managers
     private GameManager gameManager;
@@ -88,16 +92,17 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         //create all fragments at start
         homeFragment = new HomeFragment();
         questFragment = new QuestFragment();
-        shopFragment = new ShopFragment();
         dungeonFragment = new DungeonFragment();
         addCharacterFragment = new AddCharacterFragment();
         battleFragment = new BattleFragment();
         addQuestFragment = new AddQuestFragment();
 
+
         //init managers
         gameManager = GameManager.getInstance();
         gameManager.init(null, this);
         questManager = QuestManager.getInstance(this);
+
 
         //action bar stuff
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -160,9 +165,6 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
                 break;
             case NAV_QUESTS:
                 navFragment = questFragment;
-                break;
-            case NAV_STORE:
-                navFragment = shopFragment;
                 break;
             case NAV_DUNGEON:
                 navFragment = dungeonFragment;
@@ -259,7 +261,29 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     //quest fragment
     @Override
     public void onQuestSelected(int position) {
+        Quest holder = questManager.getQuest(position);
+        String timeString, typeString = "";
 
+        DateFormat df = SimpleDateFormat.getDateTimeInstance();
+        Calendar formatCalendar = Calendar.getInstance();
+        formatCalendar.setTimeInMillis(holder.getDueTimeInMillis());
+        timeString = df.format(formatCalendar.getTime());
+
+
+        switch (holder.getCurrentType()){
+            case QUEST_SINGLE:
+                typeString = "Single";
+                break;
+            case QUEST_DAILY:
+                typeString = "Daily";
+                break;
+            case QUEST_MONTHLY:
+                typeString = "Monthly";
+                break;
+        }
+
+        questFragment.showQuestDetails("Name: " + holder.getQuestName(), "Details: " + holder.getQuestDetails(),
+                "Due By: " + timeString, "Type: " + typeString);
     }
 
     public void onAddQuestPressed() {
@@ -271,10 +295,18 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         drawerList.clearChoices();
     }
 
-    //shop fragment
     @Override
-    public void onShopItemSelected(String id) {
+    public void onQuestCompleted(int position) {
+        //todo get quest points
+        Quest completed = questManager.getQuest(position);
 
+
+        Toast.makeText(this, "Quest: " + completed.getQuestName() + " completed!", Toast.LENGTH_SHORT)
+                .show();
+
+
+        questManager.completeQuest(position);
+        questFragment.updateList(questManager.getQuests());
     }
 
     //battle fragment
@@ -286,11 +318,6 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
                 break;
             case GameManager.BATTLE_CHOICE_DEFEND:
                 gameManager.defend();
-                break;
-            case GameManager.BATTLE_CHOICE_ITEM:
-                //TODO: Doesn't really make sense as it is. Either change how "items" work or
-                //figure out better way to do this.
-                gameManager.useItem(new Consumable());
                 break;
             case GameManager.BATTLE_CHOICE_FLEE:
                 gameManager.flee();
@@ -311,6 +338,18 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     //add quest fragment
     @Override
     public void onQuestCreated(Quest quest) {
+        questManager.addQuest(quest);
+
+        Toast.makeText(this, "Quest Created", Toast.LENGTH_SHORT).show();
+
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_view, questFragment)
+                .commit();
+        drawerList.clearChoices();
+
+        questFragment.updateList(questManager.getQuests());
+
 
     }
 

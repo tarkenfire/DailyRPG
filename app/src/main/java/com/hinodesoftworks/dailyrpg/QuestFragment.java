@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,16 +19,23 @@ import android.widget.TextView;
 
 
 import com.hinodesoftworks.dailyrpg.dummy.DummyContent;
+import com.hinodesoftworks.dailyrpg.todo.Quest;
+import com.hinodesoftworks.dailyrpg.todo.QuestListAdapter;
+import com.hinodesoftworks.dailyrpg.todo.QuestStatusDialogFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class QuestFragment extends Fragment implements AbsListView.OnItemClickListener {
+public class QuestFragment extends Fragment implements AbsListView.OnItemClickListener,
+        QuestStatusDialogFragment.OnStatusInteractionListener{
 
     private OnQuestFragmentInteractionListener mListener;
     private AbsListView mListView;
-    private ListAdapter mAdapter;
+    private QuestListAdapter mAdapter = null;
 
+    private int selected;
 
-    private String toAdd;
 
 
     public QuestFragment() {
@@ -39,14 +47,12 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
 
 
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
+
+        if (mAdapter == null) {
+            mAdapter = new QuestListAdapter(getActivity(), R.layout.quest_row, new ArrayList<Quest>());
+        }
 
         setHasOptionsMenu(true);
-
-
-
-
     }
 
     @Override
@@ -56,7 +62,7 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
-        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+        mListView.setAdapter(mAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
@@ -76,7 +82,6 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
 
     }
 
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -86,15 +91,23 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        this.selected = position;
+
         if (null != mListener) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
             mListener.onQuestSelected(position);
         }
     }
 
-    public void updateList(){
+    public void updateList(ArrayList<Quest> updateList){
+        mAdapter.clear();
 
+        Log.e("LIST COUNT", "Size: " + updateList.size() );
+
+        for (Quest q : updateList){
+            mAdapter.add(q);
+        }
+
+        mAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -111,10 +124,9 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
     }
 
     public interface OnQuestFragmentInteractionListener {
-        // TODO: Update argument type and name
         public void onQuestSelected(int position);
-
         public void onAddQuestPressed();
+        public void onQuestCompleted(int position);
     }
 
     @Override
@@ -133,4 +145,21 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
         return super.onOptionsItemSelected(item);
     }
 
+    //methods called from parent activity
+    public void showQuestDetails(String name, String detail, String time, String type){
+        QuestStatusDialogFragment dialog = QuestStatusDialogFragment.newInstance(name, detail, time, type);
+        dialog.setListener(this);
+        dialog.show(getActivity().getFragmentManager(), "detailDialog");
+    }
+
+    //Implemented methods
+    @Override
+    public void onCompleteClicked() {
+        mListener.onQuestCompleted(selected);
+    }
+
+    @Override
+    public void onOkClicked() {
+        //nothing needs to be done, in this version.
+    }
 }

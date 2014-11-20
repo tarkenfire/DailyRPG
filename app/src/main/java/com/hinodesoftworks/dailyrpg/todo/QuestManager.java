@@ -25,6 +25,11 @@ public class QuestManager {
         quests = new ArrayList<Quest>();
     }
 
+
+    public Quest getQuest(int position){
+        return quests.get(position);
+    }
+
     public void setQuests(ArrayList<Quest> quests) {
         this.quests = quests;
     }
@@ -39,6 +44,11 @@ public class QuestManager {
 
     public void removeQuest(Quest questToRemove){
         quests.remove(questToRemove);
+    }
+
+    public void completeQuest(int position){
+        //just a fancy name for the remove function
+        quests.remove(position);
     }
 
 }
