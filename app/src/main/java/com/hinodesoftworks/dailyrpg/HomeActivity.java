@@ -53,8 +53,6 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     private BattleFragment battleFragment;
     private AddQuestFragment addQuestFragment;
 
-
-
     //managers
     private GameManager gameManager;
     private QuestManager questManager;
@@ -157,6 +155,9 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     }
 
     private void selectItem(int position) {
+        //check for a created character, if none exists, restrict navigation until one is created
+
+
         Fragment navFragment = null;
 
         switch (position) {
@@ -164,9 +165,19 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
                 navFragment = homeFragment;
                 break;
             case NAV_QUESTS:
+                if (gameManager.getPlayerCharacter() == null){
+                    Toast.makeText(this, "Character must be created first.", Toast.LENGTH_LONG).show();
+                    selectItem(NAV_HOME);
+                    return;
+                }
                 navFragment = questFragment;
                 break;
             case NAV_DUNGEON:
+                if (gameManager.getPlayerCharacter() == null){
+                    Toast.makeText(this, "Character must be created first.", Toast.LENGTH_LONG).show();
+                    selectItem(NAV_HOME);
+                    return;
+                }
                 navFragment = dungeonFragment;
                 break;
             default:
@@ -215,6 +226,24 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
                 .replace(R.id.content_view, addCharacterFragment)
                 .commit();
         drawerList.clearChoices();
+    }
+
+    @Override
+    public void onLevelUpClicked(){
+        Character player = gameManager.getPlayerCharacter();
+
+        //todo: should scale exp
+        if (player.getExperience() >= 1000){
+            //okay to level up
+            player.setExperience(player.getExperience() - 1000);
+            player.setLevel(player.getLevel() + 1);
+            homeFragment.updatePlayerUI(player);
+            Toast.makeText(this, player.getName() + " leveled up to level " + player.getLevel(),
+                    Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "Not enough experience to level up.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     //char create fragment
@@ -297,13 +326,14 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
 
     @Override
     public void onQuestCompleted(int position) {
-        //todo get quest points
         Quest completed = questManager.getQuest(position);
+        Character player = gameManager.getPlayerCharacter();
 
+        player.modifyExp(completed.getExpValue());
 
-        Toast.makeText(this, "Quest: " + completed.getQuestName() + " completed!", Toast.LENGTH_SHORT)
-                .show();
-
+        Toast.makeText(this, "Quest: " + completed.getQuestName() + " completed! " +
+                        completed.getExpValue() + " experience earned.", Toast.LENGTH_LONG)
+                        .show();
 
         questManager.completeQuest(position);
         questFragment.updateList(questManager.getQuests());
@@ -333,7 +363,6 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
                         new Enemy("Enemy", 100, 50, 20, 10));
 
     }
-
 
     //add quest fragment
     @Override

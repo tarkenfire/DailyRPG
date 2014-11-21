@@ -16,6 +16,14 @@ public class Quest {
         this.dueTimeInMillis = dueTimeInMillis; this.experiencePoints = rewardPoints;
     }
 
+    public void setExperiencePoints(int exp){
+        experiencePoints = exp;
+    }
+
+    public int getExpValue(){
+        return experiencePoints;
+    }
+
     public QuestType getCurrentType() {
         return currentType;
     }

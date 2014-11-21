@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,6 +20,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private TextView nameDisplay;
     private TextView classDisplay;
+    private TextView expDisplay;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,6 +52,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         nameDisplay = (TextView) getActivity().findViewById(R.id.display_char_name);
         classDisplay = (TextView) getActivity().findViewById(R.id.display_char_class);
+        expDisplay = (TextView) getActivity().findViewById(R.id.display_exp_pool);
+
+        Button levelButton = (Button) getActivity().findViewById(R.id.display_level_up_button);
+        levelButton.setOnClickListener(this);
 
         warningText.setOnClickListener(this);
         mListener.onHomeResumed();
@@ -68,17 +75,25 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void updatePlayerUI(com.hinodesoftworks.dailyrpg.game.Character player) {
         nameDisplay.setText(player.getName());
         classDisplay.setText("Level " + player.getLevel() + " " + player.getClassName());
+        expDisplay.setText("Exp: " + player.getExperience());
     }
 
     //callback interface
     public interface OnHomeInteractionListener {
         public void onHomeResumed();
-
         public void onWarningClicked();
+        public void onLevelUpClicked();
     }
 
     @Override
     public void onClick(View view) {
-        mListener.onWarningClicked();
+        switch (view.getId()) {
+            case R.id.main_no_char_warning:
+                mListener.onWarningClicked();
+                break;
+            case R.id.display_level_up_button:
+                mListener.onLevelUpClicked();
+                break;
+        }
     }
 }

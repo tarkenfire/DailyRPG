@@ -67,7 +67,7 @@ public class Character {
     }
 
     public void modifyExp(int value) {
-        actualCurrentHP += value;
+        experience += value;
     }
 
     public void reduceExpByTenPercent() {

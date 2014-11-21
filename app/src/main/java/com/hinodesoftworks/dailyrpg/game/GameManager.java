@@ -75,10 +75,6 @@ public class GameManager {
         nextTurn();
     }
 
-    public void useItem(Item itemToUse) {
-        //TODO: implement
-        nextTurn();
-    }
 
     public void flee() {
         _listener.onBattleFled();
@@ -159,6 +155,7 @@ public class GameManager {
         public void onTurnEnd(Character character, Enemy enemy);
 
         public void onBattleFled();
+
 
 
     }
