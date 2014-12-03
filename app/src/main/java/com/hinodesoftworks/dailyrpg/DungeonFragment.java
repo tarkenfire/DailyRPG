@@ -7,16 +7,20 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 
-public class DungeonFragment extends Fragment implements View.OnClickListener {
+import com.hinodesoftworks.dailyrpg.game.Enemy;
+import com.hinodesoftworks.dailyrpg.util.EnemyListAdapter;
+
+import java.util.ArrayList;
+
+public class DungeonFragment extends Fragment implements ListView.OnItemClickListener {
 
     private OnDungeonFragmentInteractionListener mListener;
-
-    //UI
-    Button randomBattleButton;
-    Button dungeonButton;
-    Button bRushButton;
+    private ListView enemyList;
+    private EnemyListAdapter eAdapter = null;
 
     public DungeonFragment() {
         // Required empty public constructor
@@ -30,16 +34,24 @@ public class DungeonFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+
+        if (eAdapter == null){
+            eAdapter = new EnemyListAdapter(getActivity(), R.layout.enemy_row, new ArrayList<Enemy>());
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
-        randomBattleButton = (Button) getActivity().findViewById(R.id.randomBattleButton);
-        dungeonButton = (Button) getActivity().findViewById(R.id.dungeonBattleButton);
-        bRushButton = (Button) getActivity().findViewById(R.id.bossRushButton);
+        enemyList = (ListView)getActivity().findViewById(R.id.battle_enemy_list);
+        enemyList.setAdapter(eAdapter);
 
-        randomBattleButton.setOnClickListener(this);
-        dungeonButton.setOnClickListener(this);
-        bRushButton.setOnClickListener(this);
+        enemyList.setOnItemClickListener(this);
+
+        mListener.onDungeonScreenResumed();
     }
 
 
@@ -60,14 +72,27 @@ public class DungeonFragment extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
-    //button listener
-    @Override
-    public void onClick(View view) {
-        mListener.onButtonPressed(view.getId());
-    }
+
+
 
     public interface OnDungeonFragmentInteractionListener {
-        public void onButtonPressed(int id);
+        public void onEnemySelected(int position);
+        public void onDungeonScreenResumed();
     }
 
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
+        mListener.onEnemySelected(pos);
+    }
+
+    public void updateEnemyList(ArrayList<Enemy> list){
+        eAdapter.clear();
+
+        for (Enemy e : list){
+            eAdapter.add(e);
+        }
+
+        eAdapter.notifyDataSetChanged();
+    }
 }

@@ -108,8 +108,8 @@ public class BattleFragment extends Fragment implements View.OnClickListener {
 
     //activity-called methods
     public void updateUI(Character character, Enemy enemy) {
-        Log.i("Is Char null", character == null ? "True" : "False");
-        Log.i("Is enemy null", enemy == null ? "True" : "False");
+
+        if (character == null || enemy == null) return;
 
         playerName.setText(character.getName());
         playerHP.setText("HP: " + character.getActualCurrentHP() + "/" + character.getActualMaxHP());

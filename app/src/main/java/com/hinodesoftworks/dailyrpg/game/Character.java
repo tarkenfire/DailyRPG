@@ -78,6 +78,11 @@ public class Character {
         actualCurrentHP = actualMaxHP;
     }
 
+    public void levelUp(){
+        level++;
+
+    }
+
     public boolean isDead() {
         return actualCurrentHP <= 0;
     }

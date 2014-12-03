@@ -2,6 +2,7 @@ package com.hinodesoftworks.dailyrpg.game;
 
 import android.app.Activity;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class GameManager {
@@ -22,14 +23,22 @@ public class GameManager {
         return playerCharacter;
     }
 
+    public int getScore(){ return score; }
+
     public Enemy getCurrentEnemy() {
         return currentEnemy;
+    }
+    public void setCurrentEnemy(int pos){
+        if (enemyList != null){
+            currentEnemy = enemyList.get(pos);
+        }
     }
 
     private Character playerCharacter = null;
     private Enemy currentEnemy = null;
     private Stack<Enemy> enemyStack;
-    private int rewardCounter = 0;
+    private ArrayList<Enemy> enemyList;
+    private int score;
 
     private static GameManager _instance = null;
     private GameListener _listener = null;
@@ -80,7 +89,6 @@ public class GameManager {
         _listener.onBattleFled();
 
         //cleanup since singleton will persist.
-        enemyStack.clear();
         currentEnemy = null;
         playerCharacter.restoreHPToFull();
         currentState = GameState.STATE_READY;
@@ -103,40 +111,45 @@ public class GameManager {
     }
 
     private void battleEndVictory() {
-        if (!enemyStack.empty()) {
-            currentEnemy = enemyStack.pop();
-            playerCharacter.restoreHPToFull();
-            nextTurn();
-            return;
-        }
+        score = currentEnemy.getLevel();
 
         _listener.onBattleEnd();
         currentState = GameState.STATE_READY;
+
+        //todo: duplicate code
+        //cleanup
+        playerCharacter.restoreHPToFull();
+        currentEnemy.modifyHP(currentEnemy.getActualMaxHP());
     }
 
     private void battleEndDefeat() {
         _listener.onBattleEnd();
+        currentState = GameState.STATE_READY;
+
+        //cleanup
+        playerCharacter.restoreHPToFull();
+        currentEnemy.modifyHP(currentEnemy.getActualMaxHP());
     }
 
-    public void createNewBattle() {
-        enemyStack = new Stack<Enemy>();
+    //battle creation
+    public void generateEnemies(int playerLevel){
+        enemyList = new ArrayList<Enemy>();
 
-        //get mode, then populate stack accordingly
-        switch (currentMode) {
-            case MODE_RANDOM:
-                //one enemy, random.
-                enemyStack.push(new Enemy("Random Enemy", 1, 50, 10, 5));
-                currentEnemy = enemyStack.pop(); //is redundant for single enemy
-                break;
-            case MODE_DUNGEON:
-                throw new UnsupportedOperationException("Not Implemented yet, why are you calling this, me?");
-            case MODE_BOSS:
-                throw new UnsupportedOperationException("Not Implemented yet, why are you calling this, me?");
+        //gen 5 enemies equal and above the player level
+        int levelHolder = playerLevel;
+        //todo random enemy name generator
+
+        for (int i = 0; i < 5; i++){
+            enemyList.add(new Enemy("Enemy", levelHolder, 50,20,10));
+            levelHolder++;
         }
-
-        nextTurn();
-        currentState = GameState.STATE_IN_BATTLE;
     }
+
+    public ArrayList<Enemy> getEnemyList(){
+        return enemyList;
+    }
+
+
 
     //game utilities
     public void updateCharacter(Character character) {
@@ -145,6 +158,10 @@ public class GameManager {
 
     public GameState getCurrentState() {
         return currentState;
+    }
+
+    public void nullEnemyList(){
+        this.enemyList = null;
     }
 
     ///listener interface

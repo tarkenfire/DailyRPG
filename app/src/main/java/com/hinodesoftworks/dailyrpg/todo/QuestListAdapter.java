@@ -31,8 +31,6 @@ public class QuestListAdapter extends ArrayAdapter<Quest> {
 
         this.context = context;
         this.quests = quests;
-
-        Log.e("HI LIST", "Size: " + quests.size());
     }
 
     @Override

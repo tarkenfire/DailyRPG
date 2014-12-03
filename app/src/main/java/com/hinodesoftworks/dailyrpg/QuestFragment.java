@@ -101,8 +101,6 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
     public void updateList(ArrayList<Quest> updateList){
         mAdapter.clear();
 
-        Log.e("LIST COUNT", "Size: " + updateList.size() );
-
         for (Quest q : updateList){
             mAdapter.add(q);
         }

@@ -27,10 +27,20 @@
             android:visibility="gone"
             android:background="#e8e6d4">
 
+            <ImageView
+                android:id="@+id/home_char_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="100dp"
+                android:maxHeight="100dp"
+                android:src="@drawable/ic_launcher"
+                android:clickable="true"/>
+
             <TextView
                 android:id="@+id/display_char_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/home_char_image"
                 />
             <TextView
                 android:id="@+id/display_char_class"

@@ -196,8 +196,6 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         layout.closeDrawer(drawerList);
     }
 
-    //utility methods
-
     //listener
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
 
@@ -236,13 +234,16 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         if (player.getExperience() >= 1000){
             //okay to level up
             player.setExperience(player.getExperience() - 1000);
-            player.setLevel(player.getLevel() + 1);
+            player.levelUp();
             homeFragment.updatePlayerUI(player);
             Toast.makeText(this, player.getName() + " leveled up to level " + player.getLevel(),
                     Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(this, "Not enough experience to level up.", Toast.LENGTH_SHORT).show();
         }
+
+        //cleanup for battle manager; null enemy list to force new list generation.
+        gameManager.nullEnemyList();
 
     }
 
@@ -265,18 +266,8 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
 
     //from dungeon fragment
     @Override
-    public void onButtonPressed(int id) {
-        switch (id) {
-            case R.id.randomBattleButton:
-                gameManager.setBattleMode(GameManager.BattleMode.MODE_RANDOM);
-                break;
-            case R.id.dungeonBattleButton:
-                gameManager.setBattleMode(GameManager.BattleMode.MODE_DUNGEON);
-                break;
-            case R.id.bossRushButton:
-                gameManager.setBattleMode(GameManager.BattleMode.MODE_BOSS);
-                break;
-        }
+    public void onEnemySelected(int position) {
+        gameManager.setCurrentEnemy(position);
 
         //change to battle fragment
         FragmentManager fragmentManager = getFragmentManager();
@@ -285,6 +276,14 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
                 .commit();
         drawerList.clearChoices();
 
+    }
+
+    @Override
+    public void onDungeonScreenResumed(){
+        if (gameManager.getEnemyList() == null){
+            gameManager.generateEnemies(gameManager.getPlayerCharacter().getLevel());
+        }
+        dungeonFragment.updateEnemyList(gameManager.getEnemyList());
     }
 
     //quest fragment
@@ -357,7 +356,7 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
 
     @Override
     public void onFragmentAttached() {
-        gameManager.createNewBattle();
+
         battleFragment.updateUI(gameManager.getPlayerCharacter(),
                 gameManager.getCurrentEnemy() != null ? gameManager.getCurrentEnemy() :
                         new Enemy("Enemy", 100, 50, 20, 10));
@@ -386,7 +385,10 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
 
     @Override
     public void onBattleEnd() {
+        Toast.makeText(this, "Battle Ended. Current High Score is: " + gameManager.getScore(),
+                        Toast.LENGTH_SHORT).show();
 
+        selectItem(NAV_HOME);
     }
 
     @Override
@@ -398,8 +400,12 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
 
     @Override
     public void onBattleFled() {
+        Toast.makeText(this, "Battle Fled", Toast.LENGTH_SHORT).show();
 
+        selectItem(NAV_HOME);
     }
+
+    //utility methods
 
 
 }
