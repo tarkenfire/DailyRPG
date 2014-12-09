@@ -11,7 +11,6 @@ import com.hinodesoftworks.dailyrpg.R;
 import com.hinodesoftworks.dailyrpg.game.Enemy;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class EnemyListAdapter extends ArrayAdapter<Enemy> {
 
@@ -46,8 +45,8 @@ public class EnemyListAdapter extends ArrayAdapter<Enemy> {
 
         TextView nameView = (TextView) convertView.findViewById(R.id.enemy_row_name);
 
-        //todo: hard coded string
-        nameView.setText("Level " + currEnemy.getLevel() + " " +currEnemy.getName());
+        String level = context.getResources().getString(R.string.label_level);
+        nameView.setText(level + " " + currEnemy.getLevel() + " " +currEnemy.getName());
 
         return convertView;
     }

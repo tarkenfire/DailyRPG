@@ -4,6 +4,7 @@ package com.hinodesoftworks.dailyrpg.todo;
 import android.app.Activity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class QuestManager {
 
@@ -23,6 +24,19 @@ public class QuestManager {
     public QuestManager(Activity context) {
         this.context = context;
         quests = new ArrayList<Quest>();
+    }
+
+    public void checkForOverdue(){
+        for (Quest q : quests){
+            long intMils = q.getDueTimeInMillis();
+            Calendar c = Calendar.getInstance();
+            long curMils = c.getTimeInMillis();
+
+            if (intMils < curMils ){
+                q.setOverdue(true);
+            }
+
+        }
     }
 
 

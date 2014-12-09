@@ -5,9 +5,12 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
@@ -22,6 +25,7 @@ import com.hinodesoftworks.dailyrpg.game.Character;
 import com.hinodesoftworks.dailyrpg.todo.Quest;
 import com.hinodesoftworks.dailyrpg.todo.QuestManager;
 
+import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -44,6 +48,9 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     public static final int NAV_HOME = 0;
     public static final int NAV_QUESTS = 1;
     public static final int NAV_DUNGEON = 2;
+
+    //request codes
+    private static final int REQUEST_PICK_IMAGE = 10001;
 
     //refs to all fragments
     private HomeFragment homeFragment;
@@ -154,6 +161,25 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         return super.onPrepareOptionsMenu(menu);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode){
+            case REQUEST_PICK_IMAGE:
+                if (resultCode == RESULT_OK) {
+                    try{
+                    gameManager.setsUserImage(decodeUri(data.getData()));
+                    }
+                    catch (FileNotFoundException e) {
+                        //TODO: handle error
+                    }
+                    addCharacterFragment.updateUI(gameManager.getsUserImage());
+                }
+                break;
+        }
+    }
+
     private void selectItem(int position) {
         //check for a created character, if none exists, restrict navigation until one is created
 
@@ -196,6 +222,35 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         layout.closeDrawer(drawerList);
     }
 
+    private Bitmap decodeUri(Uri selectedImage) throws FileNotFoundException{
+        //final max image size
+        final int MAX_SIZE = 200;
+
+        //get original image size
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inJustDecodeBounds = true;
+        BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage), null,  opts);
+
+        //get scale size
+        int tWidth = opts.outWidth; int tHeight = opts.outHeight;
+        int scale = 1;
+
+        while(true){
+            if (tWidth / 2 < MAX_SIZE || tHeight / 2 < MAX_SIZE){
+                break;
+            }
+            tWidth /= 2;
+            tHeight /= 2;
+            scale *= 2;
+        }
+
+        //decode image at correct scale
+        BitmapFactory.Options opts2 = new BitmapFactory.Options();
+        opts2.inSampleSize = scale;
+        return BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage), null,
+                opts2);
+    }
+
     //listener
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
 
@@ -212,7 +267,7 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
             homeFragment.setWarningVisibility(true);
         } else {
             homeFragment.setWarningVisibility(false);
-            homeFragment.updatePlayerUI(gameManager.getPlayerCharacter());
+            homeFragment.updatePlayerUI(gameManager.getPlayerCharacter(), gameManager.getsUserImage());
 
         }
     }
@@ -235,7 +290,7 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
             //okay to level up
             player.setExperience(player.getExperience() - 1000);
             player.levelUp();
-            homeFragment.updatePlayerUI(player);
+            homeFragment.updatePlayerUI(player, gameManager.getsUserImage());
             Toast.makeText(this, player.getName() + " leveled up to level " + player.getLevel(),
                     Toast.LENGTH_SHORT).show();
         }else{
@@ -262,6 +317,12 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
                 .commit();
 
         drawerList.setItemChecked(NAV_HOME, true);
+    }
+
+    public void onImageClick(){
+        Intent pick = new Intent(Intent.ACTION_PICK);
+        pick.setType("image/*");
+        startActivityForResult(pick, REQUEST_PICK_IMAGE);
     }
 
     //from dungeon fragment

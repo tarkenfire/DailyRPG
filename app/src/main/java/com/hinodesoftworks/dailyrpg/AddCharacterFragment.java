@@ -1,6 +1,7 @@
 package com.hinodesoftworks.dailyrpg;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -12,15 +13,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.hinodesoftworks.dailyrpg.game.*;
 import com.hinodesoftworks.dailyrpg.game.Character;
 
-public class AddCharacterFragment extends Fragment {
+public class AddCharacterFragment extends Fragment implements View.OnClickListener {
 
     EditText nameInput;
     Spinner classSpinner;
+    ImageView avatarView;
 
     private OnCharacterCreateListener mListener;
 
@@ -64,6 +67,9 @@ public class AddCharacterFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        avatarView = (ImageView) getActivity().findViewById(R.id.create_char_image);
+        avatarView.setOnClickListener(this);
+
         nameInput = (EditText) getActivity().findViewById(R.id.create_char_name);
         classSpinner = (Spinner) getActivity().findViewById(R.id.create_class_spinner);
 
@@ -95,9 +101,18 @@ public class AddCharacterFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public interface OnCharacterCreateListener {
-        // TODO: Update argument type and name
-        public void onCharacterCreated(com.hinodesoftworks.dailyrpg.game.Character character);
+    @Override
+    public void onClick(View view) {
+        mListener.onImageClick();
     }
 
+    public void updateUI(Bitmap image){
+        avatarView.setImageBitmap(image);
+    }
+
+
+    public interface OnCharacterCreateListener {
+        public void onCharacterCreated(com.hinodesoftworks.dailyrpg.game.Character character);
+        public void onImageClick();
+    }
 }

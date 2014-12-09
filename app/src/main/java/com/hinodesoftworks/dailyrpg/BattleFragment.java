@@ -59,12 +59,11 @@ public class BattleFragment extends Fragment implements View.OnClickListener {
 
         attackButton = (Button) parent.findViewById(R.id.rb_attack_button);
         defendButton = (Button) parent.findViewById(R.id.rb_defend_button);
-        itemButton = (Button) parent.findViewById(R.id.rb_temp_item_button);
+
         fleeButton = (Button) parent.findViewById(R.id.rb_flee_button);
 
         attackButton.setOnClickListener(this);
         defendButton.setOnClickListener(this);
-        itemButton.setOnClickListener(this);
         fleeButton.setOnClickListener(this);
         mListener.onFragmentAttached();
     }
@@ -96,9 +95,6 @@ public class BattleFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.rb_defend_button:
                 mListener.onBattleChoice(GameManager.BATTLE_CHOICE_DEFEND);
-                break;
-            case R.id.rb_temp_item_button:
-                mListener.onBattleChoice(GameManager.BATTLE_CHOICE_ITEM);
                 break;
             case R.id.rb_flee_button:
                 mListener.onBattleChoice(GameManager.BATTLE_CHOICE_FLEE);

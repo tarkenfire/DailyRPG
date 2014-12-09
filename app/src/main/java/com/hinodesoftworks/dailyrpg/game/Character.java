@@ -1,6 +1,7 @@
 package com.hinodesoftworks.dailyrpg.game;
 
-import java.util.Map;
+
+import android.graphics.Bitmap;
 
 public class Character {
     //constants
@@ -17,22 +18,16 @@ public class Character {
     private int baseAtk;
     private int baseDef;
 
-    private Item equipHead = null;
-    private Item equipBody = null;
-    private Item equipBoots = null;
-    private Item equipWeapon = null;
-    private Item equipShield = null;
-
     private int actualMaxHP;
     private int actualCurrentHP;
     private int actualAtk;
     private int actualDef;
 
-    private boolean hasEquipment = false;
+    private Bitmap userImage;
 
     //constructors
     public Character(String name, String className, int level, int baseHP,
-                     int baseAtk, int baseDef, Map<String, Equipment> equipment) {
+                     int baseAtk, int baseDef) {
         this.name = name;
         this.className = className;
         this.level = level;
@@ -43,20 +38,14 @@ public class Character {
         //derive hp
         this.actualMaxHP = this.actualCurrentHP = getModifiedHP();
 
-        setEquipedItems(equipment);
     }
 
     //factory method for "new", blank character creation
     public static Character createNewCharacter(String name, String className) {
         //TODO: Make different classes have different stats
-        return new Character(name, className, 1, 100, 40, 30, null);
+        return new Character(name, className, 1, 100, 40, 30);
     }
 
-    //inventory
-    private void setEquipedItems(Map<String, Equipment> itemMap) {
-        if (itemMap == null) return;
-
-    }
 
     //hp/exp manipulation
     public void modifyHP(int value) {
@@ -70,9 +59,6 @@ public class Character {
         experience += value;
     }
 
-    public void reduceExpByTenPercent() {
-        experience -= experience * .1f;
-    }
 
     public void restoreHPToFull() {
         actualCurrentHP = actualMaxHP;
@@ -104,10 +90,6 @@ public class Character {
 
 
     //utility methods
-    public String dumpToJSONString() {
-        return "";
-    }
-
 
     //TODO: validate input on mutators
     //mutators/accessors
@@ -205,5 +187,13 @@ public class Character {
 
     public void setGold(int gold) {
         this.gold = gold;
+    }
+
+    public Bitmap getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(Bitmap userImage) {
+        this.userImage = userImage;
     }
 }

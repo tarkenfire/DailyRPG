@@ -8,6 +8,7 @@ public class Quest {
     private String questName, questDetails;
     private long dueTimeInMillis;
     private int experiencePoints;
+    private boolean isOverdue = false;
 
 
     public Quest(QuestType questType, String questName, String questDetails, long dueTimeInMillis,
@@ -56,5 +57,11 @@ public class Quest {
         this.dueTimeInMillis = dueTimeInMillis;
     }
 
+    public boolean isOverdue() {
+        return isOverdue;
+    }
 
+    public void setOverdue(boolean isOverdue) {
+        this.isOverdue = isOverdue;
+    }
 }

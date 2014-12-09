@@ -7,36 +7,36 @@
         android:id="@+id/q_status_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Status"/>
+        android:text="@string/label_status"/>
 
     <TextView
         android:id="@+id/q_time_due"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Status"/>
+        android:text="@string/label_due_time"/>
 
     <TextView
         android:id="@+id/q_status_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Details"/>
+        android:text="@string/label_details"/>
 
     <TextView
         android:id="@+id/q_status_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Type"/>
+        android:text="@string/label_type"/>
 
     <Button
         android:id="@+id/q_status_complete_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Complete"/>
+        android:text="@string/button_complete_quest"/>
 
     <Button
         android:id="@+id/q_status_ok_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ok"/>
+        android:text="@string/button_close_window"/>
 
 </LinearLayout>

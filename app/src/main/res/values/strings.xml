@@ -1,16 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">DailyRPG</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">Daily RPG</string>
+
     <string name="action_settings">Settings</string>
-    <string name="drawer_open">Open</string>
-    <string name="drawer_close">Close</string>
-    <string name="warning_no_character">You have no player avatar created. Tap the screen to create one.</string>
     <string name="action_create_character">Create</string>
     <string name="action_create_quest">New Quest</string>
     <string name="action_add_quest">Add Quest</string>
+
+    <string name="button_attack">Attack</string>
+    <string name="button_defend">Defend</string>
+    <string name="button_flee">Flee</string>
+    <string name="button_level_up">Level Up</string>
+    <string name="button_complete_quest">Complete Quest</string>
+    <string name="button_close_window">Close</string>
+
+    <string name="desc_char_avatar">Player Avatar</string>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
     <string name="hint_create_character_name">Character Name</string>
+    <string name="hint_char_name">Character Name</string>
+    <string name="hint_quest_name">Quest Name</string>
+    <string name="hint_quest_details">Quest Details</string>
+    <string name="hint_experience_value">Experience Value</string>
+
+    <string name="label_player_title">Player</string>
+    <string name="label_enemy_title">Enemy</string>
+    <string name="label_hp">HP: ???/???</string>
+    <string name="label_attack">Attack: ???</string>
+    <string name="label_defense">Defense: ???</string>
+    <string name="label_exp">Exp: ???</string>
+    <string name="label_status">Status</string>
+    <string name="label_due_time">Time Due</string>
+    <string name="label_details">Details</string>
+    <string name="label_type">Type</string>
+    <string name="label_level">Level</string>
+    <string name="label_due_date">Due Date: </string>
+
+    <string name="title_activity_create_character">CreateCharacterActivity</string>
+    <string name="title_activity_add_quest">AddQuestActivity</string>
+
+    <string name="warning_no_character">You have no player avatar created. Tap the screen to create one.</string>
 
     <array name="nav_items">
         <item>Home</item>
@@ -29,9 +61,5 @@
         <item>Daily</item>
         <item>Monthly</item>
     </array>
-
-    <string name="title_activity_create_character">CreateCharacterActivity</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_add_quest">AddQuestActivity</string>
 
 </resources>

@@ -25,26 +25,26 @@
                 android:id="@+id/rb_player_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Player"
+                android:text="@string/label_player_title"
                 android:textAppearance="?android:attr/textAppearanceMedium"/>
 
             <TextView
                 android:id="@+id/rb_player_hp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Text"/>
+                android:text="@string/label_hp"/>
 
             <TextView
                 android:id="@+id/rb_player_attack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Text"/>
+                android:text="@string/label_attack"/>
 
             <TextView
                 android:id="@+id/rb_player_defense"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Text"/>
+                android:text="@string/label_defense"/>
         </LinearLayout>
 
         <LinearLayout
@@ -56,26 +56,26 @@
                 android:id="@+id/rb_enemy_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Enemy"
+                android:text="@string/label_enemy_title"
                 android:textAppearance="?android:attr/textAppearanceMedium"/>
 
             <TextView
                 android:id="@+id/rb_enemy_hp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Text"/>
+                android:text="@string/label_hp"/>
 
             <TextView
                 android:id="@+id/rb_enemy_attack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Text"/>
+                android:text="@string/label_attack"/>
 
             <TextView
                 android:id="@+id/rb_enemy_defense"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Text"/>
+                android:text="@string/label_defense"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -83,23 +83,17 @@
         android:id="@+id/rb_attack_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Attack"/>
+        android:text="@string/button_attack"/>
 
     <Button
         android:id="@+id/rb_defend_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Defend"/>
-
-    <Button
-        android:id="@+id/rb_temp_item_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Healing Item"/>
+        android:text="@string/button_defend"/>
 
     <Button
         android:id="@+id/rb_flee_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Flee"/>
+        android:text="@string/button_flee"/>
 </LinearLayout>

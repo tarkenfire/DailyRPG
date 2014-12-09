@@ -1,12 +1,8 @@
 package com.hinodesoftworks.dailyrpg;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -27,7 +22,6 @@ import com.hinodesoftworks.dailyrpg.util.TimePickerDialogFragment;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 
 public class AddQuestFragment extends Fragment implements
@@ -144,10 +138,11 @@ public class AddQuestFragment extends Fragment implements
         Calendar formatCalendar = Calendar.getInstance();
         formatCalendar.set(year, month, day, hour, minute);
 
-        //TODO: Hard coded strings
-        dateButton.setText("Due Date: " + df.format(formatCalendar.getTime()));
-        timeButton.setText("Time Due: " + hf.format(formatCalendar.getTime()));
+        String date = getActivity().getResources().getString(R.string.label_due_date);
+        String time = getActivity().getResources().getString(R.string.label_due_time);
 
+        dateButton.setText(date + ": " + df.format(formatCalendar.getTime()));
+        timeButton.setText(time + ": " + hf.format(formatCalendar.getTime()));
     }
 
     private void showDateDialog() {
@@ -195,8 +190,6 @@ public class AddQuestFragment extends Fragment implements
             Toast.makeText(getActivity(), "Experience must not be left blank", Toast.LENGTH_SHORT).show();
             return;
         }
-
-
 
         mListener.onQuestCreated(new Quest(
                 qType,

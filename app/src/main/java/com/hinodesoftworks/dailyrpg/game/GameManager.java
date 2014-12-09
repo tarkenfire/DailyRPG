@@ -1,6 +1,6 @@
 package com.hinodesoftworks.dailyrpg.game;
 
-import android.app.Activity;
+import android.graphics.Bitmap;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -12,9 +12,9 @@ public class GameManager {
 
     public static final int BATTLE_CHOICE_ATTACK = 101;
     public static final int BATTLE_CHOICE_DEFEND = 102;
-    public static final int BATTLE_CHOICE_ITEM = 103;
     public static final int BATTLE_CHOICE_FLEE = 104;
 
+    private Bitmap sUserImage = null;
 
     private GameState currentState = GameState.STATE_NOT_INITIALIZED;
     private BattleMode currentMode = BattleMode.MODE_RANDOM;
@@ -36,7 +36,6 @@ public class GameManager {
 
     private Character playerCharacter = null;
     private Enemy currentEnemy = null;
-    private Stack<Enemy> enemyStack;
     private ArrayList<Enemy> enemyList;
     private int score;
 
@@ -63,10 +62,6 @@ public class GameManager {
 
     //battle mechanics section
     //todo: use derived statistics instead of raw ones
-
-    public void setBattleMode(BattleMode mode) {
-        this.currentMode = mode;
-    }
 
     public void attack() {
         playerCharacter.modifyHP(-(currentEnemy.getBaseAtk() > playerCharacter.getBaseDef() ?
@@ -149,8 +144,6 @@ public class GameManager {
         return enemyList;
     }
 
-
-
     //game utilities
     public void updateCharacter(Character character) {
         this.playerCharacter = character;
@@ -172,10 +165,13 @@ public class GameManager {
         public void onTurnEnd(Character character, Enemy enemy);
 
         public void onBattleFled();
-
-
-
     }
 
+    public Bitmap getsUserImage() {
+        return sUserImage;
+    }
 
+    public void setsUserImage(Bitmap sUserImage) {
+        this.sUserImage = sUserImage;
+    }
 }

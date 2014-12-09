@@ -2,11 +2,13 @@ package com.hinodesoftworks.dailyrpg;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,6 +23,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private TextView nameDisplay;
     private TextView classDisplay;
     private TextView expDisplay;
+    private ImageView charDisplay;
 
 
     @Override
@@ -53,6 +56,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         nameDisplay = (TextView) getActivity().findViewById(R.id.display_char_name);
         classDisplay = (TextView) getActivity().findViewById(R.id.display_char_class);
         expDisplay = (TextView) getActivity().findViewById(R.id.display_exp_pool);
+        charDisplay = (ImageView) getActivity().findViewById(R.id.home_char_image);
 
         Button levelButton = (Button) getActivity().findViewById(R.id.display_level_up_button);
         levelButton.setOnClickListener(this);
@@ -72,10 +76,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void updatePlayerUI(com.hinodesoftworks.dailyrpg.game.Character player) {
+    public void updatePlayerUI(com.hinodesoftworks.dailyrpg.game.Character player, Bitmap image) {
         nameDisplay.setText(player.getName());
         classDisplay.setText("Level " + player.getLevel() + " " + player.getClassName());
         expDisplay.setText("Exp: " + player.getExperience());
+
+        if (image != null){
+            charDisplay.setImageBitmap(image);
+        }
     }
 
     //callback interface

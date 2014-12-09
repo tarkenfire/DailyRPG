@@ -14,16 +14,17 @@
         android:id="@+id/create_char_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxWidth="100dp"
-        android:maxHeight="100dp"
+        android:minHeight="100dp"
+        android:minWidth="100dp"
         android:src="@drawable/ic_launcher"
+        android:contentDescription="@string/desc_char_avatar"
         android:clickable="true"/>
 
     <EditText
         android:id="@+id/create_char_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Character name"/>
+        android:hint="@string/hint_char_name"/>
 
     <Spinner
         android:id="@+id/create_class_spinner"

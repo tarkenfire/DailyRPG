@@ -14,8 +14,6 @@ import com.hinodesoftworks.dailyrpg.R;
 
 public class QuestStatusDialogFragment extends DialogFragment implements View.OnClickListener {
 
-    private Button completeButton, okButton;
-    private TextView nameDisplay, detailDisplay, timeDisplay, typeDisplay;
     private OnStatusInteractionListener mListener;
 
     //factory method
@@ -37,6 +35,9 @@ public class QuestStatusDialogFragment extends DialogFragment implements View.On
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View parent = inflater.inflate(R.layout.fragment_quest_status, container, false);
+
+        Button completeButton, okButton;
+        TextView nameDisplay, detailDisplay, timeDisplay, typeDisplay;
 
         completeButton = (Button) parent.findViewById(R.id.q_status_complete_button);
         okButton = (Button)parent.findViewById(R.id.q_status_ok_button);

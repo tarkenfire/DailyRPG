@@ -28,7 +28,6 @@ public class QuestListAdapter extends ArrayAdapter<Quest> {
 
     public QuestListAdapter(Context context, int resource, ArrayList<Quest> quests) {
         super(context, resource, quests);
-
         this.context = context;
         this.quests = quests;
     }
@@ -45,8 +44,6 @@ public class QuestListAdapter extends ArrayAdapter<Quest> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-
         if (convertView == null){
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.quest_row, parent, false);
@@ -77,7 +74,11 @@ public class QuestListAdapter extends ArrayAdapter<Quest> {
             case QUEST_MONTHLY:
                 container.setBackgroundColor(Color.parseColor("#DEA4FF"));
                 break;
+        }
 
+        //if quest is overdue, override the color
+        if (holder.isOverdue()){
+            container.setBackgroundColor(Color.RED);
         }
 
         return convertView;

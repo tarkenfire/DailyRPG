@@ -20,7 +20,7 @@
             android:id="@+id/quest_name_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Quest Name"
+            android:hint="@string/hint_quest_name"
             />
 
         <EditText
@@ -30,14 +30,14 @@
             android:inputType="textMultiLine"
             android:ems="10"
             android:layout_weight="0.18"
-            android:hint="Quest Details"/>
+            android:hint="@string/hint_quest_details"/>
 
         <EditText
             android:id="@+id/quest_exp_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:hint="Experience Value"
+            android:hint="@string/hint_experience_value"
             />
 
 
