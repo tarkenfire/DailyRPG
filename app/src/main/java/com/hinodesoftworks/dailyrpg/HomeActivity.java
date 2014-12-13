@@ -156,8 +156,6 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        //TODO: hide action items, if needed.
-
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -182,8 +180,6 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
 
     private void selectItem(int position) {
         //check for a created character, if none exists, restrict navigation until one is created
-
-
         Fragment navFragment = null;
 
         switch (position) {
@@ -253,7 +249,6 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
 
     //listener
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
-
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
             selectItem(pos);
@@ -353,6 +348,8 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         Quest holder = questManager.getQuest(position);
         String timeString, typeString = "";
 
+        questManager.checkForOverdue();
+
         DateFormat df = SimpleDateFormat.getDateTimeInstance();
         Calendar formatCalendar = Calendar.getInstance();
         formatCalendar.setTimeInMillis(holder.getDueTimeInMillis());
@@ -438,8 +435,7 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         drawerList.clearChoices();
 
         questFragment.updateList(questManager.getQuests());
-
-
+        questManager.checkForOverdue();
     }
 
     //game manager methods
