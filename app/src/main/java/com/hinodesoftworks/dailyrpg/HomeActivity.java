@@ -63,6 +63,7 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     //managers
     private GameManager gameManager;
     private QuestManager questManager;
+    private DataManager dataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +108,18 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         gameManager = GameManager.getInstance();
         gameManager.init(null, this);
         questManager = QuestManager.getInstance(this);
+        dataManager = DataManager.getInstance(this);
+
+        //check for saved data
+        if (dataManager.isCharacterSaved()){
+            gameManager.updateCharacter(dataManager.getStoredCharacter());
+        }
+
+        if (dataManager.areQuestsSaved()){
+            questManager.setQuests(dataManager.getStoredQuests());
+        }
+
+
 
 
         //action bar stuff
@@ -123,6 +136,12 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        dataManager.persistData(gameManager.getPlayerCharacter(), questManager.getQuests());
     }
 
     @Override
