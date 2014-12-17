@@ -83,17 +83,20 @@
         android:id="@+id/rb_attack_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_attack"/>
+        android:text="@string/button_attack"
+        android:layout_marginBottom="10dp"/>
 
     <Button
         android:id="@+id/rb_defend_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_defend"/>
+        android:text="@string/button_defend"
+        android:layout_marginBottom="10dp"/>
 
     <Button
         android:id="@+id/rb_flee_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_flee"/>
+        android:text="@string/button_flee"
+        />
 </LinearLayout>

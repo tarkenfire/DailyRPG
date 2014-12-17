@@ -6,6 +6,7 @@
         <item name="android:actionBarStyle">@style/ActionBar</item>
         <item name="android:textAppearance">@style/NormalText</item>
         <item name="android:textAppearanceMedium">@style/MediumText</item>
+        <item name="android:buttonStyle">@style/AppButton</item>
     </style>
 
     <!--Actionbar style-->
@@ -18,7 +19,16 @@
         <item name="android:textColor">#4f4e4b</item>
     </style>
     <style name="MediumText" parent="@android:style/TextAppearance">
-        <item name="android:textColor">#47b1a0</item>
+        <item name="android:textColor">#ff504f4c</item>
     </style>
+
+    <!--Button style-->
+    <style name="AppButton" parent="@android:style/Widget.Button">
+        <item name="android:background">@drawable/button_selector</item>
+        <item name="android:textColor">#ffe8e6d4</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
 
 </resources>
