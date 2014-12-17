@@ -467,6 +467,8 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         selectItem(NAV_HOME);
     }
 
+
+
     @Override
     public void onTurnEnd(com.hinodesoftworks.dailyrpg.game.Character character, Enemy enemy) {
         battleFragment.updateUI(gameManager.getPlayerCharacter(),

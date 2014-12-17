@@ -12,9 +12,7 @@ public class BattleVictoryDialogFragment extends DialogFragment {
     private OnInteractionListener mListener;
 
     public static BattleVictoryDialogFragment newInstance(){
-return null;
-        
-
+        return null;
     }
 
 
