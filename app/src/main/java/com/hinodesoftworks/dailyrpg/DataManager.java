@@ -38,15 +38,16 @@ public class DataManager {
         SharedPreferences.Editor editor = prefs.edit();
 
         //character
-        editor.putInt("c_player_level", character.getLevel());
-        editor.putInt("c_player_exp", character.getExperience());
-        editor.putInt("c_base_hp", character.getBaseHP());
-        editor.putInt("c_base_atk", character.getBaseAtk());
-        editor.putInt("c_base_def", character.getBaseDef());
+        if (character != null) {
+            editor.putInt("c_player_level", character.getLevel());
+            editor.putInt("c_player_exp", character.getExperience());
+            editor.putInt("c_base_hp", character.getBaseHP());
+            editor.putInt("c_base_atk", character.getBaseAtk());
+            editor.putInt("c_base_def", character.getBaseDef());
 
-        editor.putString("c_player_name", character.getName());
-        editor.putString("c_player_class_name", character.getClassName());
-
+            editor.putString("c_player_name", character.getName());
+            editor.putString("c_player_class_name", character.getClassName());
+        }
         //TODO: persist user image
 
         //quests

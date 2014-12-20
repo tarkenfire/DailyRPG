@@ -20,7 +20,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.games.Games;
+import com.google.android.gms.plus.Plus;
 import com.hinodesoftworks.dailyrpg.game.*;
 import com.hinodesoftworks.dailyrpg.game.Character;
 import com.hinodesoftworks.dailyrpg.todo.Quest;
@@ -68,6 +71,16 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     private GameManager gameManager;
     private QuestManager questManager;
     private DataManager dataManager;
+
+    //gpgs vars
+    private static final int RC_SIGN_IN = 9001;
+    private static final String LEADERBOARD_MAIN = "CgkIw-Ov3pIbEAIQAQ";
+
+    private GoogleApiClient mGoogleApiClient;
+    private boolean mSignInClicked = false;
+    private boolean mResolvingConnectionFailure = false;
+    private boolean mAutoStartSignInFlow = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +137,13 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         }
 
 
+        //google play service setup
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(Plus.API).addScope(Plus.SCOPE_PLUS_LOGIN)
+                .addApi(Games.API).addScope(Games.SCOPE_GAMES)
+                .build();
 
 
         //action bar stuff
@@ -146,6 +166,20 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
     protected void onPause() {
         super.onPause();
         dataManager.persistData(gameManager.getPlayerCharacter(), questManager.getQuests());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mGoogleApiClient.isConnected()){
+            mGoogleApiClient.disconnect();
+        }
     }
 
     @Override
@@ -197,6 +231,18 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
                     }
                     addCharacterFragment.updateUI(gameManager.getsUserImage());
                 }
+                break;
+            case RC_SIGN_IN:
+                mSignInClicked = false;
+                mResolvingConnectionFailure = false;
+                if (resultCode == RESULT_OK){
+                    mGoogleApiClient.connect();
+                }
+                else{
+                    BaseGameUtils.showActivityResultError(this, requestCode, resultCode,
+                            R.string.error_sign_in);
+                }
+
                 break;
         }
     }
@@ -378,6 +424,29 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
             gameManager.generateEnemies(gameManager.getPlayerCharacter().getLevel());
         }
         dungeonFragment.updateEnemyList(gameManager.getEnemyList());
+        dungeonFragment.updateButtonUI(mSignInClicked);
+    }
+
+    @Override
+    public void onSignIn() {
+        mSignInClicked = true;
+        mGoogleApiClient.connect();
+
+        dungeonFragment.updateButtonUI(mSignInClicked);
+    }
+
+    @Override
+    public void onSignOut() {
+        mSignInClicked = false;
+        Games.signOut(mGoogleApiClient);
+
+        dungeonFragment.updateButtonUI(mSignInClicked);
+    }
+
+    @Override
+    public void onShowLeaderboard(){
+        startActivityForResult(Games.Leaderboards.getLeaderboardIntent(mGoogleApiClient, LEADERBOARD_MAIN
+                ), 1000102);
     }
 
     //quest fragment
@@ -483,6 +552,8 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         Toast.makeText(this, "Battle Ended. Current High Score is: " + gameManager.getScore(),
                         Toast.LENGTH_SHORT).show();
 
+        Games.Leaderboards.submitScore(mGoogleApiClient, LEADERBOARD_MAIN, gameManager.getScore());
+
         selectItem(NAV_HOME);
     }
 
@@ -504,6 +575,38 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
 
     //utility methods
 
-    
+    //google api implements
+    @Override
+    public void onConnected(Bundle bundle) {
+        dungeonFragment.updateButtonUI(mSignInClicked);
+    }
 
+    @Override
+    public void onConnectionSuspended(int i) {
+        //reconnect
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        if (mResolvingConnectionFailure){
+            //already resolving, do nothing
+            return;
+        }
+
+        //launch sign-in flow again if error
+        if (mSignInClicked || mAutoStartSignInFlow){
+            mAutoStartSignInFlow = false;
+            mSignInClicked = false;
+            mResolvingConnectionFailure = true;
+
+            if (!BaseGameUtils.resolveConnectionFailure(this, mGoogleApiClient, connectionResult,
+                    RC_SIGN_IN, "Error")){
+                mResolvingConnectionFailure = false;
+            }
+        }
+
+        //display sign-in buttons
+        dungeonFragment.updateButtonUI(mSignInClicked);
+    }
 }

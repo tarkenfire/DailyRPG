@@ -21,6 +21,8 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
 
+    <string name="error_sign_in">A sign-in error has occurred, unable to sign in.</string>
+
     <string name="hint_create_character_name">Character Name</string>
     <string name="hint_char_name">Character Name</string>
     <string name="hint_quest_name">Quest Name</string>

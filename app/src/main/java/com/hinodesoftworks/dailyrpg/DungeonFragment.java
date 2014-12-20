@@ -16,11 +16,13 @@ import com.hinodesoftworks.dailyrpg.util.EnemyListAdapter;
 
 import java.util.ArrayList;
 
-public class DungeonFragment extends Fragment implements ListView.OnItemClickListener {
+public class DungeonFragment extends Fragment implements ListView.OnItemClickListener,
+                    View.OnClickListener {
 
     private OnDungeonFragmentInteractionListener mListener;
     private ListView enemyList;
     private EnemyListAdapter eAdapter = null;
+    private boolean signInVisible = false;
 
     public DungeonFragment() {
         // Required empty public constructor
@@ -40,6 +42,8 @@ public class DungeonFragment extends Fragment implements ListView.OnItemClickLis
         if (eAdapter == null){
             eAdapter = new EnemyListAdapter(getActivity(), R.layout.enemy_row, new ArrayList<Enemy>());
         }
+
+
     }
 
     @Override
@@ -48,6 +52,10 @@ public class DungeonFragment extends Fragment implements ListView.OnItemClickLis
 
         enemyList = (ListView)getActivity().findViewById(R.id.battle_enemy_list);
         enemyList.setAdapter(eAdapter);
+
+        getActivity().findViewById(R.id.sign_in_button).setOnClickListener(this);
+        getActivity().findViewById(R.id.sign_out_button).setOnClickListener(this);
+        getActivity().findViewById(R.id.show_leader).setOnClickListener(this);
 
         enemyList.setOnItemClickListener(this);
 
@@ -72,12 +80,12 @@ public class DungeonFragment extends Fragment implements ListView.OnItemClickLis
         mListener = null;
     }
 
-
-
-
     public interface OnDungeonFragmentInteractionListener {
         public void onEnemySelected(int position);
         public void onDungeonScreenResumed();
+        public void onSignIn();
+        public void onSignOut();
+        public void onShowLeaderboard();
     }
 
 
@@ -94,5 +102,37 @@ public class DungeonFragment extends Fragment implements ListView.OnItemClickLis
         }
 
         eAdapter.notifyDataSetChanged();
+    }
+
+    public void updateButtonUI(boolean signInClicked){
+        try{
+            if(signInClicked){
+                getActivity().findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+                getActivity().findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
+            }
+            else{
+                getActivity().findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+                getActivity().findViewById(R.id.sign_out_button).setVisibility(View.GONE);
+            }
+        }
+        catch (NullPointerException e){
+            return;
+        }
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.sign_in_button:
+                mListener.onSignIn();
+                break;
+            case R.id.sign_out_button:
+                mListener.onSignOut();
+                break;
+            case R.id.show_leader:
+                mListener.onShowLeaderboard();
+                break;
+        }
     }
 }
