@@ -17,7 +17,8 @@ public class QuestStatusDialogFragment extends DialogFragment implements View.On
     private OnStatusInteractionListener mListener;
 
     //factory method
-    public static QuestStatusDialogFragment newInstance(String name, String detail, String time, String type){
+    public static QuestStatusDialogFragment newInstance(String name, String detail, String time,
+                                                        String type, boolean isOverdue){
         QuestStatusDialogFragment holder = new QuestStatusDialogFragment();
 
         Bundle args = new Bundle();
@@ -25,6 +26,7 @@ public class QuestStatusDialogFragment extends DialogFragment implements View.On
         args.putString("detail", detail);
         args.putString("time", time);
         args.putString("type", type);
+        args.putBoolean("overdue", isOverdue);
 
         holder.setArguments(args);
 
@@ -55,6 +57,12 @@ public class QuestStatusDialogFragment extends DialogFragment implements View.On
         detailDisplay.setText(args.getString("detail", "Quest Details"));
         timeDisplay.setText(args.getString("time", "Due Time"));
         typeDisplay.setText(args.getString("type", "Quest Type"));
+
+        boolean checkFlag = args.getBoolean("overdue", false);
+
+        if (checkFlag){
+            completeButton.setEnabled(false);
+        }
 
         //set dialog title for asthetic reasons
         getDialog().setTitle("Quest Details");

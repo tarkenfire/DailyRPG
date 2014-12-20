@@ -146,6 +146,25 @@ public class DataManager {
         return qHolder;
     }
 
+    //quest data is cleared automatically with the persist function, but char data needs a removal
+    //method
+
+    public void deleteStoredCharacter(){
+        SharedPreferences prefs = mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.remove("c_player_level");
+        editor.remove("c_player_exp");
+        editor.remove("c_base_hp");
+        editor.remove("c_base_atk");
+        editor.remove("c_base_def");
+
+        editor.remove("c_player_name");
+        editor.remove("c_player_class_name");
+
+        editor.apply();
+    }
+
     //data existance checking methods
     public boolean isCharacterSaved(){
         return mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).contains("c_player_name");

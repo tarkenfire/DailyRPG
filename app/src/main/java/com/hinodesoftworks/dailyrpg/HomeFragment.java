@@ -5,6 +5,9 @@ import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -34,6 +37,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -63,6 +68,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         warningText.setOnClickListener(this);
         mListener.onHomeResumed();
+
+
     }
 
     //methods called from home activity
@@ -86,11 +93,30 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        getActivity().getMenuInflater().inflate(R.menu.home_fragment, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_delete_title){
+            mListener.onDeleteClicked();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
     //callback interface
     public interface OnHomeInteractionListener {
         public void onHomeResumed();
         public void onWarningClicked();
         public void onLevelUpClicked();
+        public void onDeleteClicked();
     }
 
     @Override

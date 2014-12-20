@@ -7,6 +7,7 @@
     <string name="action_create_character">Create</string>
     <string name="action_create_quest">New Quest</string>
     <string name="action_add_quest">Add Quest</string>
+    <string name="action_delete_character">Delete</string>
 
     <string name="button_attack">Attack</string>
     <string name="button_defend">Defend</string>

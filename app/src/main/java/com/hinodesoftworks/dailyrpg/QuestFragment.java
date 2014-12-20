@@ -144,8 +144,9 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
     }
 
     //methods called from parent activity
-    public void showQuestDetails(String name, String detail, String time, String type){
-        QuestStatusDialogFragment dialog = QuestStatusDialogFragment.newInstance(name, detail, time, type);
+    public void showQuestDetails(String name, String detail, String time, String type, boolean isOverdue){
+        QuestStatusDialogFragment dialog = QuestStatusDialogFragment.newInstance(name, detail, time
+                , type, isOverdue);
         dialog.setListener(this);
         dialog.show(getActivity().getFragmentManager(), "detailDialog");
     }

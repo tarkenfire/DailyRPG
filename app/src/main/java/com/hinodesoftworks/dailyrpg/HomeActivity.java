@@ -20,10 +20,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.hinodesoftworks.dailyrpg.game.*;
 import com.hinodesoftworks.dailyrpg.game.Character;
 import com.hinodesoftworks.dailyrpg.todo.Quest;
 import com.hinodesoftworks.dailyrpg.todo.QuestManager;
+
+import com.google.example.games.basegameutils.BaseGameUtils;
 
 import java.io.FileNotFoundException;
 import java.text.DateFormat;
@@ -36,7 +39,8 @@ import java.util.Calendar;
 public class HomeActivity extends Activity implements HomeFragment.OnHomeInteractionListener,
         QuestFragment.OnQuestFragmentInteractionListener,
         DungeonFragment.OnDungeonFragmentInteractionListener, AddCharacterFragment.OnCharacterCreateListener,
-        GameManager.GameListener, BattleFragment.OnBattleInteractionListener, AddQuestFragment.OnAddQuestInteractionListener {
+        GameManager.GameListener, BattleFragment.OnBattleInteractionListener, AddQuestFragment.OnAddQuestInteractionListener,
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
     //nav drawers variables
     private String[] pageNames;
@@ -282,7 +286,6 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         } else {
             homeFragment.setWarningVisibility(false);
             homeFragment.updatePlayerUI(gameManager.getPlayerCharacter(), gameManager.getsUserImage());
-
         }
     }
 
@@ -314,6 +317,22 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         //cleanup for battle manager; null enemy list to force new list generation.
         gameManager.nullEnemyList();
 
+    }
+
+    @Override
+    public void onDeleteClicked() {
+        if (gameManager.getPlayerCharacter() == null){
+            Toast.makeText(this, "No character to delete", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            dataManager.deleteStoredCharacter();
+            Toast.makeText(this, "Character Deleted", Toast.LENGTH_SHORT).show();
+
+            gameManager.updateCharacter(null);
+
+            homeFragment.setWarningVisibility(true);
+
+        }
     }
 
     //char create fragment
@@ -388,7 +407,7 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         }
 
         questFragment.showQuestDetails("Name: " + holder.getQuestName(), "Details: " + holder.getQuestDetails(),
-                "Due By: " + timeString, "Type: " + typeString);
+                "Due By: " + timeString, "Type: " + typeString, holder.isOverdue());
     }
 
     public void onAddQuestPressed() {
@@ -485,5 +504,6 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
 
     //utility methods
 
+    
 
 }
