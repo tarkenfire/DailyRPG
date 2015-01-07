@@ -36,8 +36,6 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
 
     private int selected;
 
-
-
     public QuestFragment() {
     }
 
@@ -112,6 +110,14 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
         }
 
         mAdapter.notifyDataSetChanged();
+
+        if (mAdapter.getCount() > 0){
+
+        }
+        else{
+
+        }
+
     }
 
     /**

@@ -177,9 +177,16 @@ public class AddQuestFragment extends Fragment implements
         }
 
         Calendar c = Calendar.getInstance();
+        long testMillis = c.getTimeInMillis();
         c.set(year, month, day, hour, minute);
 
         timeMillis = c.getTimeInMillis();
+
+        //check to prevent quest date from being before current time
+        if (timeMillis < testMillis){
+            Toast.makeText(getActivity(), "Quest must be due at a time in the future.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         int expValue;
 
