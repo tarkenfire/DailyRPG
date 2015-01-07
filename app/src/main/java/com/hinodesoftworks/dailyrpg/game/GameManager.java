@@ -141,7 +141,7 @@ public class GameManager {
 
         for (int i = 0; i < 5; i++){
             enemyList.add(new Enemy(names[new Random().nextInt(names.length)], levelHolder,
-                    50 + levelHolder * 4 , 40 + levelHolder, 30 + levelHolder));
+                    50 + levelHolder * 4 , 30 + levelHolder, 15 + levelHolder));
             levelHolder++;
         }
     }
