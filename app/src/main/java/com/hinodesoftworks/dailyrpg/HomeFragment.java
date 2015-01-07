@@ -26,6 +26,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private TextView nameDisplay;
     private TextView classDisplay;
     private TextView expDisplay;
+    private TextView atkDisplay;
+    private TextView defDisplay;
+    private TextView hpDisplay;
     private ImageView charDisplay;
 
 
@@ -62,6 +65,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         classDisplay = (TextView) getActivity().findViewById(R.id.display_char_class);
         expDisplay = (TextView) getActivity().findViewById(R.id.display_exp_pool);
         charDisplay = (ImageView) getActivity().findViewById(R.id.home_char_image);
+        atkDisplay = (TextView) getActivity().findViewById(R.id.display_attack);
+        defDisplay = (TextView) getActivity().findViewById(R.id.display_defense);
+        hpDisplay = (TextView) getActivity().findViewById(R.id.display_hp);
 
         Button levelButton = (Button) getActivity().findViewById(R.id.display_level_up_button);
         levelButton.setOnClickListener(this);
@@ -87,6 +93,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         nameDisplay.setText(player.getName());
         classDisplay.setText("Level " + player.getLevel() + " " + player.getClassName());
         expDisplay.setText("Exp: " + player.getExperience());
+        atkDisplay.setText("Atk: " + player.getBaseAtk());
+        defDisplay.setText("Def: " + player.getBaseDef());
+        hpDisplay.setText("Max HP: " + player.getActualMaxHP());
 
         if (image != null){
             charDisplay.setImageBitmap(image);

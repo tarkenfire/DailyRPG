@@ -43,6 +43,17 @@ public class Character {
     //factory method for "new", blank character creation
     public static Character createNewCharacter(String name, String className) {
         //TODO: Make different classes have different stats
+
+        if (className.matches("Warrior")){
+            return new Character(name, className, 1, 100, 30, 30);
+        }
+        else if (className.matches("Thief")){
+            return new Character(name, className, 1, 70, 40, 10);
+        }
+        else if (className.matches("Paladin")){
+            return new Character(name, className, 1, 120, 20, 40);
+        }
+
         return new Character(name, className, 1, 100, 40, 30);
     }
 
