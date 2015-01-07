@@ -9,6 +9,8 @@ public class Quest {
     private long dueTimeInMillis;
     private int experiencePoints;
     private boolean isOverdue = false;
+    private boolean isCompleteForPeriod = false;
+
 
 
     public Quest(QuestType questType, String questName, String questDetails, long dueTimeInMillis,
@@ -63,5 +65,13 @@ public class Quest {
 
     public void setOverdue(boolean isOverdue) {
         this.isOverdue = isOverdue;
+    }
+
+    public boolean isCompleteForPeriod() {
+        return isCompleteForPeriod;
+    }
+
+    public void setCompleteForPeriod(boolean isCompleteForPeriod) {
+        this.isCompleteForPeriod = isCompleteForPeriod;
     }
 }

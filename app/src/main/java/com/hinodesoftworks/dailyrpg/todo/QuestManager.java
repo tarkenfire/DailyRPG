@@ -35,7 +35,6 @@ public class QuestManager {
             if (intMils < curMils ){
                 q.setOverdue(true);
             }
-
         }
     }
 
@@ -60,9 +59,31 @@ public class QuestManager {
         quests.remove(questToRemove);
     }
 
+
+
     public void completeQuest(int position){
-        //just a fancy name for the remove function
-        quests.remove(position);
+        Quest holder = quests.get(position);
+
+        if (holder.getCurrentType() == Quest.QuestType.QUEST_SINGLE){
+            quests.remove(position);
+        }
+        else if (holder.getCurrentType() == Quest.QuestType.QUEST_DAILY){
+            //just add 24 hours to quest
+
+            long curMils = holder.getDueTimeInMillis();
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(curMils);
+            c.add(Calendar.HOUR_OF_DAY, 24);
+            holder.setDueTimeInMillis(c.getTimeInMillis());
+        }
+        else if (holder.getCurrentType() == Quest.QuestType.QUEST_MONTHLY){
+            long curMils = holder.getDueTimeInMillis();
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(curMils);
+            c.add(Calendar.MONTH, 1);
+            holder.setDueTimeInMillis(c.getTimeInMillis());
+        }
+
     }
 
 }
