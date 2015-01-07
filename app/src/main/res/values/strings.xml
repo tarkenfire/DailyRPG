@@ -18,6 +18,13 @@
 
     <string name="desc_char_avatar">Player Avatar</string>
 
+    <string name="desc_warrior_class">Base HP: 100 Base Attack: 30 Base Defense: 30
+        \nThe Warrior is competent in both attacking and defense, with an average amount of hitpoints.</string>
+    <string name="desc_thief_class">Base HP: 70 Base Attack: 50 Base Defense: 10
+        \nThe Thief sacrifices both hitpoints and defensive ability in exchange for an overwhelmingly powerful attack.</string>
+    <string name="desc_paladin_class">Base HP: 100 Base Attack: 30 Base Defense: 30
+        \nThe Paladin starts with a larger defensive bonus as well as more hitpoints, but this is at the cost of attacking power.</string>
+
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
 

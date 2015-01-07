@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -388,6 +389,9 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         //TODO: Hard-coded string
         Toast.makeText(this, "Character Created", Toast.LENGTH_SHORT).show();
 
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+
         //change back to home fragment
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
@@ -451,8 +455,6 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         } else {
             Toast.makeText(this, "Error with GPGS login.", Toast.LENGTH_SHORT).show();
         }
-
-
     }
 
     //quest fragment
@@ -544,6 +546,9 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         questManager.addQuest(quest);
 
         Toast.makeText(this, "Quest Created", Toast.LENGTH_SHORT).show();
+
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()

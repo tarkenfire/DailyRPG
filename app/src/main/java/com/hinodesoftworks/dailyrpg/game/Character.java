@@ -48,7 +48,7 @@ public class Character {
             return new Character(name, className, 1, 100, 30, 30);
         }
         else if (className.matches("Thief")){
-            return new Character(name, className, 1, 70, 40, 10);
+            return new Character(name, className, 1, 70, 50, 10);
         }
         else if (className.matches("Paladin")){
             return new Character(name, className, 1, 120, 20, 40);

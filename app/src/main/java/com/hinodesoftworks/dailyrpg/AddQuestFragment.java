@@ -205,6 +205,12 @@ public class AddQuestFragment extends Fragment implements
                 timeMillis,
                 expValue
         ));
+
+        //cleanup ui
+        nameField.setText("");
+        detailsField.setText("");
+        expField.setText("0");
+        typeSpinner.setSelection(0);
     }
 
 
