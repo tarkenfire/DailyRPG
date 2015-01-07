@@ -83,6 +83,12 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mListener.onQuestFragmentResumed();
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
@@ -125,6 +131,7 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
         public void onQuestSelected(int position);
         public void onAddQuestPressed();
         public void onQuestCompleted(int position);
+        public void onQuestFragmentResumed();
     }
 
     @Override

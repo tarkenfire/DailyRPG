@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
@@ -29,7 +28,9 @@ import com.hinodesoftworks.dailyrpg.game.Character;
 import com.hinodesoftworks.dailyrpg.todo.Quest;
 import com.hinodesoftworks.dailyrpg.todo.QuestManager;
 
-import com.google.example.games.basegameutils.BaseGameUtils;
+import com.google.example.games.basegameutils.*;
+
+
 
 import java.io.FileNotFoundException;
 import java.text.DateFormat;
@@ -203,11 +204,8 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
             return true;
         }
 
-
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -500,6 +498,10 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
                         .show();
 
         questManager.completeQuest(position);
+        questFragment.updateList(questManager.getQuests());
+    }
+
+    public void onQuestFragmentResumed(){
         questFragment.updateList(questManager.getQuests());
     }
 
