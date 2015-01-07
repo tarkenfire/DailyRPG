@@ -84,6 +84,15 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
     public void onResume() {
         super.onResume();
         mListener.onQuestFragmentResumed();
+
+        if (mAdapter.getCount() > 0){
+            TextView emptyView = (TextView) getActivity().findViewById(android.R.id.empty);
+            emptyView.setText("");
+        }
+        else{
+            TextView emptyView = (TextView) getActivity().findViewById(android.R.id.empty);
+            emptyView.setText(getResources().getText(R.string.warning_no_quests));
+        }
     }
 
     @Override
@@ -111,12 +120,8 @@ public class QuestFragment extends Fragment implements AbsListView.OnItemClickLi
 
         mAdapter.notifyDataSetChanged();
 
-        if (mAdapter.getCount() > 0){
 
-        }
-        else{
 
-        }
 
     }
 

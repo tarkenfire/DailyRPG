@@ -82,8 +82,6 @@ public class DataManager {
                 e.printStackTrace();
             }
 
-
-
             //add to array
             container.put(holder);
         }

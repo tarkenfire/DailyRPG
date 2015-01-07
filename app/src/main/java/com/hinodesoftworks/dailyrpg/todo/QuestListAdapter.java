@@ -54,8 +54,11 @@ public class QuestListAdapter extends ArrayAdapter<Quest> {
         LinearLayout container = (LinearLayout)convertView.findViewById(R.id.quest_row_container);
         TextView titleView = (TextView)convertView.findViewById(R.id.quest_row_name);
         TextView dateView = (TextView)convertView.findViewById(R.id.quest_row_time);
+        TextView descView = (TextView)convertView.findViewById(R.id.quest_row_desc);
+        TextView typeView = (TextView)convertView.findViewById(R.id.quest_row_type);
 
         titleView.setText(holder.getQuestName());
+        descView.setText(holder.getQuestDetails());
 
         DateFormat df = SimpleDateFormat.getDateTimeInstance();
         Calendar formatCalendar = Calendar.getInstance();
@@ -67,12 +70,15 @@ public class QuestListAdapter extends ArrayAdapter<Quest> {
         switch (holder.getCurrentType()){
             case QUEST_SINGLE:
                 container.setBackgroundColor(Color.parseColor("#FF8071"));
+                typeView.setText("Single Quest");
                 break;
             case QUEST_DAILY:
                 container.setBackgroundColor(Color.parseColor("#98FF90"));
+                typeView.setText("Daily Quest");
                 break;
             case QUEST_MONTHLY:
                 container.setBackgroundColor(Color.parseColor("#DEA4FF"));
+                typeView.setText("Monthly Quest");
                 break;
         }
 
