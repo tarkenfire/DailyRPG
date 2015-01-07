@@ -76,7 +76,7 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
 
     //gpgs vars
     private static final int RC_SIGN_IN = 9001;
-    private static final String LEADERBOARD_MAIN = "CgkIw-Ov3pIbEAIQAQ";
+    private static final String LEADERBOARD_MAIN = "CgkI1Kv7oKMeEAIQAQ";
 
     private GoogleApiClient mGoogleApiClient;
     private boolean mSignInClicked = false;
@@ -444,8 +444,15 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
 
     @Override
     public void onShowLeaderboard(){
-        startActivityForResult(Games.Leaderboards.getLeaderboardIntent(mGoogleApiClient, LEADERBOARD_MAIN
-                ), 1000102);
+
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            startActivityForResult(Games.Leaderboards.getLeaderboardIntent(mGoogleApiClient, LEADERBOARD_MAIN
+            ), 1000102);
+        } else {
+            Toast.makeText(this, "Error with GPGS login.", Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 
     //quest fragment
@@ -555,7 +562,11 @@ public class HomeActivity extends Activity implements HomeFragment.OnHomeInterac
         Toast.makeText(this, "Battle Ended. Current High Score is: " + gameManager.getScore(),
                         Toast.LENGTH_SHORT).show();
 
-        Games.Leaderboards.submitScore(mGoogleApiClient, LEADERBOARD_MAIN, gameManager.getScore());
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            Games.Leaderboards.submitScore(mGoogleApiClient, LEADERBOARD_MAIN, gameManager.getScore());
+        } else {
+            Toast.makeText(this, "Error with leaderboard submission.", Toast.LENGTH_SHORT).show();
+        }
 
         selectItem(NAV_HOME);
     }

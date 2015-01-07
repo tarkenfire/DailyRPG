@@ -77,7 +77,9 @@ public class Character {
 
     public void levelUp(){
         level++;
-
+        baseAtk+= 5;
+        baseDef+= 5;
+        baseHP+= 10;
     }
 
     public boolean isDead() {

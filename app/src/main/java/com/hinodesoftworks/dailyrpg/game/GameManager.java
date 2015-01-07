@@ -3,6 +3,7 @@ package com.hinodesoftworks.dailyrpg.game;
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Stack;
 
 public class GameManager {
@@ -132,10 +133,15 @@ public class GameManager {
 
         //gen 5 enemies equal and above the player level
         int levelHolder = playerLevel;
-        //todo random enemy name generator
+
+        //get random name
+        String[] names = {"Goblin", "Drake", "Bandit", "Muffin Demon", "Naga"};
+
+
 
         for (int i = 0; i < 5; i++){
-            enemyList.add(new Enemy("Enemy", levelHolder, 50,20,10));
+            enemyList.add(new Enemy(names[new Random().nextInt(names.length)], levelHolder,
+                    50 + levelHolder * 4 , 40 + levelHolder, 30 + levelHolder));
             levelHolder++;
         }
     }
